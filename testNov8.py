@@ -2,6 +2,7 @@ import csv
 import matplotlib.pyplot as plt
 from mpl_toolkits import axisartist
 from mpl_toolkits.axes_grid1 import host_subplot
+from scipy import stats
 
 f = open("testNov8.csv","r")
 
@@ -72,4 +73,71 @@ par3.axis["right"].label.set_color(p4.get_color())
 
 
 plt.title("November 8, 2024 Test Data")
+plt.show()
+
+
+# prediction example:
+w_real = [] # work done, i.e. power drained in joules
+position = [] # distance moved since last timestep
+mass = 8
+acceleration = []
+force = []
+times = t
+scale_const = 1
+
+for i in range(len(rows)):
+    c = rows[i][1]
+    v = rows[i][2]
+    t = rows[i][0]
+    vl = rows[i][4]
+    a = vl
+    dt = t
+    prev = 0
+    if i > 0:
+        t -= rows[i-1][0]
+        prev = w_real[i-1]
+        a -= rows[i-1][4]
+        if a < 0:
+            a = 0
+    position.append(v*t)
+    acceleration.append(a)
+    force.append(vl**2+mass*a)
+    w_real.append(prev+c*v*t)
+
+print(position)
+print(acceleration)
+print(force)
+
+w_predict = [] #prediction
+for i in range(len(rows)):
+    w = force[i]*position[i]*scale_const
+    if i > 0:
+        w += w_predict[i-1]
+    w_predict.append(w)
+
+slope, intercept, r, p, std_err = stats.linregress(w_predict, w_real)
+
+def myfunc(x):
+  return slope * x + intercept
+
+mymodel = list(map(myfunc, w_predict))
+
+print(f"Slope: {round(slope,2)}, Intercept: {round(intercept,2)}, R: {round(r,2)}, P: {round(p,5)}, Standard Error: {round(std_err,2)}")
+
+plt.scatter(w_predict, w_real)
+plt.plot(w_predict, mymodel)
+plt.title("Prediction vs Actual Work (J)")
+plt.xlabel("Predicted Work (J)")
+plt.ylabel("Actual Work (J)")
+plt.show()
+
+for i in range(len(w_predict)):
+    w_predict[i] *= slope
+
+fig, ax = plt.subplots()
+ax.scatter(times, w_predict, c="tab:blue", label="Predicted")
+ax.scatter(times, w_real, c="tab:green", label="Actual")
+ax.legend()
+plt.xlabel("Time (s)")
+plt.ylabel("Predicted and Actual Work (J)")
 plt.show()
