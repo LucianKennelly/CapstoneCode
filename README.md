@@ -6,9 +6,9 @@ The EVGP Battery Drain Simulator is a tool designed to predict electric vehicle 
 ## Installation
 To set up the EVGP Battery Drain Simulator, follow these steps:
 
-    * 1. Clone the repository to your local machine.
-    * 2. Install the required dependencies using pip:
-        `pip3 install -r /path/to/requirements.txt`
+* Clone the repository to your local machine.
+* Install the required dependencies using pip:
+    `pip3 install -r /path/to/requirements.txt`
 
 ## Usage
 Prepare your input data, ensuring it includes parameters like position, current, voltage, and battery characteristics.
