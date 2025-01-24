@@ -2,7 +2,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.widgets import Slider, Button
 import tkinter as tk
-
+#import testNov8
+data = open("..\verification\gui.py")
+timepoints = data.times
+data.w_real
 timepoints = np.array([8,1])
 voltagepoints = np.array([0,1])
 fig, ax= plt.subplots()
