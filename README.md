@@ -19,7 +19,7 @@ View the output data, which will detail the estimated battery consumption.
 
 To run and navigate the GUI, follow these steps:
 * Using the command prompt, navigate to the `path/to/verification` folder.
-* Type `python gui.py`
+* Type `python gui.py` in the command prompt.
 * Use the mass slider to adjust the mass of the kart (0 - 2000 kg).
 * Click "Run Test" to update the visualization.
 * View the graph displaying state of charge vs. time.
