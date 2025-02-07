@@ -79,7 +79,7 @@ plt.show()
 # prediction example:
 w_real = [] # work done, i.e. power drained in joules
 position = [] # distance moved since last timestep
-mass = 8
+mass = 3.111 # weight in kg
 acceleration = []
 force = []
 times = t
@@ -122,12 +122,12 @@ def myfunc(x):
 
 mymodel = list(map(myfunc, w_predict))
 
-print(f"Slope: {round(slope,2)}, Intercept: {round(intercept,2)}, R: {round(r,2)}, P: {round(p,5)}, Standard Error: {round(std_err,2)}")
+print(f"Slope: {round(slope,2)}, Intercept: {round(intercept,2)}, R: {round(r,10)}, P: {round(p,10)}, Standard Error: {round(std_err,10)}")
 
 plt.scatter(w_predict, w_real)
 plt.plot(w_predict, mymodel)
 plt.title("Prediction vs Actual Work (J)")
-plt.xlabel("Predicted Work (J)")
+plt.xlabel("Predicted Work")
 plt.ylabel("Actual Work (J)")
 plt.show()
 
