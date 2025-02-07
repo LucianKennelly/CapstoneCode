@@ -6,7 +6,7 @@ The EVGP Battery Drain Simulator is a tool designed to predict electric vehicle 
 The project includes a graphical user interface (GUI) that allows users to interact with the simulation by adjusting parameters such as vehicle mass and observing the battery drain behavior through real-time visualization.
 
 ## Installation and Usage
-To run the application, clone the Githup repository and navigate to the PredictionApp folder in terminal. Ensure you have Node.js installed, then run "npm install" to install required packages. Once packages are installed, run "npm start" to begin hosting the application locally. Navigate to http://localhost:3000/ using a browser to use the application
+To run the application, clone the GitHub repository and navigate to the PredictionApp folder in the terminal. Ensure you have Node.js installed, then run "npm install" to install the required packages. Once packages are installed, run "npm start" to begin hosting the application locally. Navigate to http://localhost:3000/ using a browser to use the application. To stop the local application, type `ctrl+c` in the terminal.
 
 ## Dependencies
 Python 3.12.7
