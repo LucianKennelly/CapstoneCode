@@ -1,36 +1,103 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EVGP Battery Drain Simulator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 600px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .textbox {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #e9e9e9;
+        }
+        .textbox h3 {
+            margin: 0 0 10px 0;
+        }.button-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .run-test-btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .run-test-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
 <body>
-
-<h1>LABSIM</h1>
-<p>User Path Input:</p>
-<div>
-        <input type="radio" 
-               id="High Speed" 
-               name="speed" 
-               value="High Speed">
+    <h1>LABSIM</h1>
+    <p>User Path Input:</p>
+    <div>
+        <input type="radio" id="High Speed" name="speed" value="High Speed">
         <label for="High Speed">High Speed</label>
     </div>
-
     <div>
-        <input type="radio" 
-               id="Normal Speed" 
-               name="speed" 
-               value="Normal Speed">
+        <input type="radio" id="Normal Speed" name="speed" value="Normal Speed">
         <label for="Normal Speed">Normal Speed</label>
     </div>
-
     <div>
-        <input type="radio" 
-               id="Low Speed" 
-               name="speed" 
-               value="Low Speed" checked>
+        <input type="radio" id="Low Speed" name="speed" value="Low Speed" checked>
         <label for="Low Speed">Low Speed</label>
     </div>
-<form>
-  <label for="charge">Battery Charge (V): </label>
-<input type="text" id="charge" name="charge"><br><br>
-</form>
-<script src="../verification/testNov8.py"></script>
+    <form>
+        <label for="charge">Battery Charge (V): </label>
+        <input type="text" id="charge" name="charge"><br><br>
+    </form>
+    <div class="container">
+        <div class="textbox" id="battery-info">
+            <h3>Battery Information</h3>
+            <p><strong>Coulomb Count:</strong> <span id="coulomb-count">0</span></p>
+            <p><strong>Scaling Count:</strong> <span id="scaling-count">0</span></p>
+        </div>
+        <div class="textbox" id="settings-info">
+            <h3>Settings</h3>
+            <p><strong>Max Speed:</strong> <span id="max-speed">0</span></p>
+            <div>
+                <strong>Speed Unit:</strong><br>
+                <input type="radio" name="speed-unit" value="km/h" checked> km/h
+                <input type="radio" name="speed-unit" value="mph"> mph
+                <input type="radio" name="speed-unit" value="m/s"> m/s
+            </div>
+            <p><strong>Acceleration:</strong> <span id="acceleration">0</span> m/s²</p>
+            <p><strong>Max Speed Turn Radius:</strong> <span id="turn-radius">0</span> m</p>
+            <p><strong>Sharp Turn Speed:</strong> <span id="sharp-turn-speed">0</span></p>
+            <div>
+                <strong>Speed Unit:</strong><br>
+                <input type="radio" name="speed-unit" value="km/h" checked> km/h
+                <input type="radio" name="speed-unit" value="mph"> mph
+                <input type="radio" name="speed-unit" value="m/s"> m/s
+            </div>
+        </div>
+    </div>
+    <div class="button-container">
+        <button class="run-test-btn" onclick="runTest()">Run Test</button>
+    </div>
+    <script>
+        function runTest() {
+            alert("Running test...");
+        }
+    </script>
+    <script src="../verification/testNov8.py"></script>
 </body>
 </html>
