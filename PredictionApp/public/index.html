@@ -31,16 +31,17 @@
             margin-top: 20px;
             text-align: center;
         }
-        .run-test-btn {
+        .button {
             padding: 10px 20px;
             font-size: 16px;
+            margin: 5px;
             background-color: #007bff;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
         }
-        .run-test-btn:hover {
+        .button:hover {
             background-color: #0056b3;
         }
     </style>
@@ -91,13 +92,23 @@
         </div>
     </div>
     <div class="button-container">
-	<a href="result.html">
-        <button class="run-test-btn" onclick="runTest()">Run Test</button>
-	</a>
+        <button class="button" onclick="runTest()">Run Test</button>
+        <button class="button" onclick="saveKart()">Save Kart</button>
+        <button class="button" onclick="loadKartProfile()">Load Kart Profile</button>
+        <button class="button" onclick="selectMap()">Select Map</button>
     </div>
     <script>
         function runTest() {
-            alert("Running test...");
+            window.location.href = "result.html";
+        }
+        function saveKart() {
+            alert("Kart saved!");
+        }
+        function loadKartProfile() {
+            alert("Kart profile loaded!");
+        }
+        function selectMap() {
+            alert("Map selected!");
         }
     </script>
     <script src="../verification/testNov8.py"></script>
