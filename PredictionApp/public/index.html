@@ -29,7 +29,7 @@
             margin: 0 0 10px 0;
         }.button-container {
             margin-top: 20px;
-            text-align: center;
+            number-align: center;
         }
         .button {
             padding: 10px 20px;
@@ -61,28 +61,35 @@
         <input type="radio" id="Low Speed" name="speed" value="Low Speed" checked>
         <label for="Low Speed">Low Speed</label>
     </div>
-    <form>
-        <label for="charge">Battery Charge (V): </label>
-        <input type="text" id="charge" name="charge"><br><br>
-    </form>
+    
     <div class="container">
         <div class="textbox" id="battery-info">
             <h3>Battery Information</h3>
-            <p><strong>Coulomb Count:</strong> <span id="coulomb-count">0</span></p>
-            <p><strong>Scaling Count:</strong> <span id="scaling-count">0</span></p>
+            <label for="charge">Battery Charge (V): </label>
+            <input type="number" id="charge" name="charge"><br>
+
+            <label for="coulomb-count">Coulomb Count:</label>
+            <input type="number" id="coulomb-count" name="coulomb-count" class="input-field"> <br>
+            
+            <label for="scaling-count">Scaling Count:</label>
+            <input type="number" id="scaling-count" name="scaling-count" class="input-field">
         </div>
         <div class="textbox" id="settings-info">
             <h3>Settings</h3>
-            <p><strong>Max Speed:</strong> <span id="max-speed">0</span></p>
+            <label for="max-speed">Max Speed:</label>
+            <input type="number" id="max-speed" name="max-speed" class="input-field"> <br>
             <div>
                 <strong>Speed Unit:</strong><br>
                 <input type="radio" name="speed-unit" value="km/h" checked> km/h
                 <input type="radio" name="speed-unit" value="mph"> mph
                 <input type="radio" name="speed-unit" value="m/s"> m/s
             </div>
-            <p><strong>Acceleration:</strong> <span id="acceleration">0</span> m/s²</p>
-            <p><strong>Max Speed Turn Radius:</strong> <span id="turn-radius">0</span> m</p>
-            <p><strong>Sharp Turn Speed:</strong> <span id="sharp-turn-speed">0</span></p>
+            <label for="acceleration">Acceleration (m/s^2):</label>
+            <input type="number" id="acceleration" name="acceleration" class="input-field"> <br>
+            <label for="turn-radius">Max Speed Turn Radius:</label>
+            <input type="number" id="turn-radius" name="turn-radius" class="input-field"> <br>
+            <label for="sharp-turn-speed">Sharp Turn Speed:</label>
+            <input type="number" id="sharp-turn-speed" name="sharp-turn-speed" class="input-field"> <br>
             <div>
                 <strong>Speed Unit:</strong><br>
                 <input type="radio" name="speed-unit" value="km/h" checked> km/h
