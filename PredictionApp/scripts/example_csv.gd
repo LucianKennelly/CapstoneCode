@@ -11,4 +11,4 @@ func _process(delta: float) -> void:
 
 
 func _on_run_pressed() -> void:
-	print(data.records)
+	print(data.records[0]["time"])
