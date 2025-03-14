@@ -1,0 +1,17 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://bw0lka76fvd6f"
+
+[deps]
+
+files=["res://data/testNov8_positionData. Time.translation", "res://data/testNov8_positionData. Lat.translation", "res://data/testNov8_positionData. Lon.translation", "res://data/testNov8_positionData. Speed Data (miles/hour).translation", "res://data/testNov8_positionData. Elevation (m).translation"]
+
+source_file="res://data/testNov8_positionData.csv"
+dest_files=["res://data/testNov8_positionData. Time.translation", "res://data/testNov8_positionData. Lat.translation", "res://data/testNov8_positionData. Lon.translation", "res://data/testNov8_positionData. Speed Data (miles/hour).translation", "res://data/testNov8_positionData. Elevation (m).translation"]
+
+[params]
+
+compress=true
+delimiter=0
