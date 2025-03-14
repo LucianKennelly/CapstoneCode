@@ -418,5 +418,3 @@ offset_top = 4.0
 offset_right = 96.0
 offset_bottom = 96.0
 script = ExtResource("5_kbped")
-
-[connection signal="pressed" from="Popupwindow/CloseButton" to="Meta/Load3" method="_on_close_button_pressed"]
