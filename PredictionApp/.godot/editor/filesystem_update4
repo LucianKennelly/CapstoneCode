@@ -3,3 +3,4 @@ res://data/testNov8_positionData. Lat.translation
 res://data/testNov8_positionData. Lon.translation
 res://data/testNov8_positionData. Elevation (m).translation
 res://scenes/control.tscn
+res://scripts/example_csv.gd

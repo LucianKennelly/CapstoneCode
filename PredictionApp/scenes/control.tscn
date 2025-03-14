@@ -284,6 +284,7 @@ theme_override_font_sizes/font_size = 25
 selected = 0
 item_count = 1
 popup/item_0/text = "example.json"
+popup/item_0/id = 0
 
 [node name="Load2" type="Button" parent="Meta"]
 layout_mode = 0
