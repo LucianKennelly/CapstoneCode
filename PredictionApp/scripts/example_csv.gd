@@ -2,7 +2,7 @@ extends Node
 var data = preload("res://data/testNov8.csv")
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	data = load("res://data/testNov8.csv")
+	pass
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

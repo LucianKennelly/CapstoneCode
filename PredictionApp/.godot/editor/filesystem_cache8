@@ -10,17 +10,17 @@ csv_data.gd::GDScript::-1::1741916099::0::1::::<>Resource<>::
 import_plugin.gd::GDScript::-1::1741916099::0::1::::<>EditorImportPlugin<>::
 plugin.cfg::TextFile::-1::1741916099::0::1::::<><>::
 plugin.gd::GDScript::-1::1741916099::0::1::::<>EditorPlugin<>::
-::res://data/::1741918047
+::res://data/::1741918481
 testNov8. current (A).translation::Translation::8882609052375219859::1741917877::0::1::::<><>::
 testNov8. resistance (Ohms) (est.).translation::Translation::6827685974830119727::1741917877::0::1::::<><>::
 testNov8. velocity (mph) (est.).translation::Translation::7916989474494873640::1741917877::0::1::::<><>::
 testNov8. voltage (V).translation::Translation::5657404133890246289::1741917877::0::1::::<><>::
 testNov8.csv::Resource::6698500327064516488::1741915539::1741917886::1::::<><>::res://addons/csv-data-importer/csv_data.gd
-testNov8_positionData. Elevation (m).translation::OptimizedTranslation::7511553856394539353::1741918368::0::1::::<><>::
-testNov8_positionData. Lat.translation::OptimizedTranslation::9003915291665984712::1741918368::0::1::::<><>::
-testNov8_positionData. Lon.translation::OptimizedTranslation::5618434371682423029::1741918368::0::1::::<><>::
-testNov8_positionData. Time.translation::OptimizedTranslation::4832974852837774504::1741918368::0::1::::<><>::
-testNov8_positionData.csv::Translation::3982870483290539015::1741915547::1741918368::1::::<><>::
+testNov8_positionData. Elevation (m).translation::OptimizedTranslation::7511553856394539353::1741918486::0::1::::<><>::
+testNov8_positionData. Lat.translation::OptimizedTranslation::9003915291665984712::1741918485::0::1::::<><>::
+testNov8_positionData. Lon.translation::OptimizedTranslation::5618434371682423029::1741918485::0::1::::<><>::
+testNov8_positionData. Time.translation::OptimizedTranslation::4832974852837774504::1741918485::0::1::::<><>::
+testNov8_positionData.csv::Translation::3982870483290539015::1741915547::1741918486::1::::<><>::
 ::res://Fonts/::1741918048
 TheSans-2_ExtraLightItalic_TRIAL.otf::FontFile::5039191459965771685::1741914930::1741918048::1::::<><>::
 TheSans-2_ExtraLight_TRIAL.otf::FontFile::3335722376631863463::1741914930::1741918048::1::::<><>::
@@ -89,7 +89,7 @@ TheSansSCd-9_Black_TRIAL.otf::FontFile::530249337960153109::1741914930::17419180
 TheThinnest_TRIAL.otf::FontFile::1518935808958550052::1741914930::1741918047::1::::<><>::
 ::res://node_modules/::1741914930
 ::res://node_modules/python-shell/::1740112896
-::res://scenes/::1741918311
-control.tscn::PackedScene::4316669109614081495::1741918311::0::1::::<><>::uid://dxj7vj3ssyhog::::res://Fonts/TheSans-5_Plain_TRIAL.otf<>res://scripts/example_csv.gd<>uid://bmpov5wxmw81s::::res://UP_Logo.png<>uid://lhr2lcs1jdjt::::res://Mario_mario_kart_8_deluxe.png
-::res://scripts/::1741917899
-example_csv.gd::GDScript::-1::1741917899::0::1::::<>Node<>::
+::res://scenes/::1741918408
+control.tscn::PackedScene::4316669109614081495::1741918408::0::1::::<><>::uid://dxj7vj3ssyhog::::res://Fonts/TheSans-5_Plain_TRIAL.otf<>res://scripts/example_csv.gd<>uid://bmpov5wxmw81s::::res://UP_Logo.png<>uid://lhr2lcs1jdjt::::res://Mario_mario_kart_8_deluxe.png
+::res://scripts/::1741918485
+example_csv.gd::GDScript::-1::1741918485::0::1::::<>Node<>::
