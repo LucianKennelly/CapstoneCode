@@ -10,17 +10,17 @@ csv_data.gd::GDScript/GDScript::138631064587369901::1741916099::0::1::::<>Resour
 import_plugin.gd::GDScript/GDScript::1183759295409428251::1741916099::0::1::::<>EditorImportPlugin<><>0<>1<><>::
 plugin.cfg::TextFile/TextFile::-1::1741916099::0::1::::<><><>0<>0<><>::
 plugin.gd::GDScript/GDScript::4433048862086535697::1741916099::0::1::::<>EditorPlugin<><>0<>1<><>::
-::res://data/::1741918585
+::res://data/::1741918593
 testNov8. current (A).translation::Translation/Translation::8882609052375219859::1741917877::0::1::::<><><>0<>0<><>::
 testNov8. resistance (Ohms) (est.).translation::Translation/Translation::6827685974830119727::1741917877::0::1::::<><><>0<>0<><>::
 testNov8. velocity (mph) (est.).translation::Translation/Translation::7916989474494873640::1741917877::0::1::::<><><>0<>0<><>::
 testNov8. voltage (V).translation::Translation/Translation::5657404133890246289::1741917877::0::1::::<><><>0<>0<><>::
 testNov8.csv::Resource/Resource::6698500327064516488::1741915539::1741918567::1::::<><><>0<>0<>32da88cf9bcbec46ba5fe6a8bfbea993<>res://.godot/imported/testNov8.csv-9fb44c1ae344da5e901ba954d9f3a3d8.res::uid://b8fh610ovic8::::res://addons/csv-data-importer/csv_data.gd
-testNov8_positionData. Elevation (m).translation::OptimizedTranslation::4628225633311287472::1741918593::0::1::::<><><>0<>0<><>::
-testNov8_positionData. Lat.translation::OptimizedTranslation::4405796657456804007::1741918593::0::1::::<><><>0<>0<><>::
-testNov8_positionData. Lon.translation::OptimizedTranslation::3961042138276031237::1741918593::0::1::::<><><>0<>0<><>::
-testNov8_positionData. Time.translation::OptimizedTranslation::6576788557182197916::1741918593::0::1::::<><><>0<>0<><>::
-testNov8_positionData.csv::Translation/Translation::3982870483290539015::1741915547::1741918593::1::::<><><>0<>0<>434f62226c9b1d94ee2898e3829ca1b1<>res://data/testNov8_positionData. Time.translation<*>res://data/testNov8_positionData. Lat.translation<*>res://data/testNov8_positionData. Lon.translation<*>res://data/testNov8_positionData. Speed Data (miles/hour).translation<*>res://data/testNov8_positionData. Elevation (m).translation::
+testNov8_positionData. Elevation (m).translation::OptimizedTranslation::4628225633311287472::1741918641::0::1::::<><><>0<>0<><>::
+testNov8_positionData. Lat.translation::OptimizedTranslation::4405796657456804007::1741918641::0::1::::<><><>0<>0<><>::
+testNov8_positionData. Lon.translation::OptimizedTranslation::3961042138276031237::1741918641::0::1::::<><><>0<>0<><>::
+testNov8_positionData. Time.translation::OptimizedTranslation::6576788557182197916::1741918641::0::1::::<><><>0<>0<><>::
+testNov8_positionData.csv::Resource/Translation::3982870483290539015::1741915547::1741918652::1::::<><><>0<>0<>81a2c82ceb16ce32e4e99f1d82d5cdd1<>res://.godot/imported/testNov8_positionData.csv-12b526840cb4a7858bfef77b89fb74d5.res::uid://b8fh610ovic8::::res://addons/csv-data-importer/csv_data.gd
 ::res://Fonts/::1741918568
 TheSans-2_ExtraLightItalic_TRIAL.otf::FontFile/FontFile::5039191459965771685::1741914930::1741918568::1::::<><><>0<>0<>31301e3584b399afa46df94f0103aaa4<>res://.godot/imported/TheSans-2_ExtraLightItalic_TRIAL.otf-c7d1276ee0a868f53354d78c5a316357.fontdata::
 TheSans-2_ExtraLight_TRIAL.otf::FontFile/FontFile::3335722376631863463::1741914930::1741918568::1::::<><><>0<>0<>8ac3915aeec45c46de5ea17968ee661b<>res://.godot/imported/TheSans-2_ExtraLight_TRIAL.otf-3a1f37082efdb8866cb4a6442380e8ed.fontdata::
@@ -89,7 +89,7 @@ TheSansSCd-9_Black_TRIAL.otf::FontFile/FontFile::530249337960153109::1741914930:
 TheThinnest_TRIAL.otf::FontFile/FontFile::1518935808958550052::1741914930::1741918568::1::::<><><>0<>0<>08a78040a597a03cbec32e566ca1df0d<>res://.godot/imported/TheThinnest_TRIAL.otf-d6bd83ed60606fbe36373a40d6002806.fontdata::
 ::res://node_modules/::1741914930
 ::res://node_modules/python-shell/::1740109296
-::res://scenes/::1741918408
+::res://scenes/::1741918593
 control.tscn::PackedScene::4316669109614081495::1741918593::0::1::::<><><>0<>0<><>::uid://dxj7vj3ssyhog::::res://Fonts/TheSans-5_Plain_TRIAL.otf<>uid://buj6t2xc6v634::::res://scripts/example_csv.gd<>uid://bmpov5wxmw81s::::res://UP_Logo.png<>uid://lhr2lcs1jdjt::::res://Mario_mario_kart_8_deluxe.png
 ::res://scripts/::1741918566
 example_csv.gd::GDScript/GDScript::3810694566894355049::1741918485::0::1::::<>Node<><>0<>0<><>::

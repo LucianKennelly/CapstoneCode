@@ -1,17 +1,18 @@
 [remap]
 
-importer="csv_translation"
-type="Translation"
+importer="com.timothyqiu.godot-csv-importer"
+type="Resource"
 uid="uid://bw0lka76fvd6f"
+path="res://.godot/imported/testNov8_positionData.csv-12b526840cb4a7858bfef77b89fb74d5.res"
 
 [deps]
 
-files=["res://data/testNov8_positionData. Time.translation", "res://data/testNov8_positionData. Lat.translation", "res://data/testNov8_positionData. Lon.translation", "res://data/testNov8_positionData. Speed Data (miles/hour).translation", "res://data/testNov8_positionData. Elevation (m).translation"]
-
 source_file="res://data/testNov8_positionData.csv"
-dest_files=["res://data/testNov8_positionData. Time.translation", "res://data/testNov8_positionData. Lat.translation", "res://data/testNov8_positionData. Lon.translation", "res://data/testNov8_positionData. Speed Data (miles/hour).translation", "res://data/testNov8_positionData. Elevation (m).translation"]
+dest_files=["res://.godot/imported/testNov8_positionData.csv-12b526840cb4a7858bfef77b89fb74d5.res"]
 
 [params]
 
-compress=true
 delimiter=0
+headers=true
+detect_numbers=true
+force_float=true
