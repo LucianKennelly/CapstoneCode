@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://dybgdho40xc2l"]
+[gd_scene load_steps=4 format=3 uid="uid://dybgdho40xc2l"]
 
 [ext_resource type="Theme" uid="uid://cencj0im115lh" path="res://Themes/UP_Theme.tres" id="1_scknq"]
+[ext_resource type="Script" uid="uid://cek853e157lu3" path="res://Scenes/map_edit.gd" id="2_54ysc"]
+[ext_resource type="PackedScene" uid="uid://qnvr0y8k5vqa" path="res://Scenes/path_node.tscn" id="3_l0088"]
 
 [node name="Map Edit" type="Control"]
 layout_mode = 3
@@ -9,14 +11,18 @@ anchor_left = 0.5
 anchor_right = 0.5
 grow_horizontal = 2
 theme = ExtResource("1_scknq")
+script = ExtResource("2_54ysc")
 
 [node name="Background" type="ColorRect" parent="."]
+visible = false
+layout_mode = 0
 offset_left = -576.0
 offset_right = 576.0
 offset_bottom = 648.0
 color = Color(0.117647, 0.0862745, 0.337255, 1)
 
 [node name="Menu Bar" type="Control" parent="."]
+layout_mode = 1
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
@@ -31,6 +37,7 @@ theme_override_font_sizes/font_size = 25
 text = "Load Image"
 
 [node name="Save" type="Button" parent="Menu Bar"]
+layout_mode = 0
 offset_left = -213.0
 offset_top = 16.0
 offset_right = -54.0
@@ -39,6 +46,7 @@ theme_override_font_sizes/font_size = 25
 text = "Save"
 
 [node name="Back" type="Button" parent="Menu Bar"]
+layout_mode = 0
 offset_left = 395.0
 offset_top = 16.0
 offset_right = 554.0
@@ -47,6 +55,7 @@ theme_override_font_sizes/font_size = 25
 text = "Back"
 
 [node name="Save As" type="Button" parent="Menu Bar"]
+layout_mode = 0
 offset_left = -42.0
 offset_top = 16.0
 offset_right = 117.0
@@ -55,6 +64,7 @@ theme_override_font_sizes/font_size = 25
 text = "Save As"
 
 [node name="Load Map" type="Button" parent="Menu Bar"]
+layout_mode = 0
 offset_left = -385.0
 offset_top = 16.0
 offset_right = -226.0
@@ -96,3 +106,29 @@ popup/item_0/text = "m"
 popup/item_0/id = 0
 popup/item_1/text = "ft"
 popup/item_1/id = 1
+
+[node name="Path Node" parent="." instance=ExtResource("3_l0088")]
+position = Vector2(452, 536)
+
+[node name="Path Node2" parent="." instance=ExtResource("3_l0088")]
+position = Vector2(287, 536)
+
+[node name="UI Zone 1" type="Control" parent="."]
+anchors_preset = 0
+offset_left = -580.0
+offset_top = -15.0
+offset_right = 585.0
+offset_bottom = 85.0
+
+[node name="UI Zone 2" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 151.0
+offset_top = 557.0
+offset_right = 589.0
+offset_bottom = 662.0
+
+[connection signal="mouse_entered" from="UI Zone 1" to="." method="_on_ui_zone_1_mouse_entered"]
+[connection signal="mouse_exited" from="UI Zone 1" to="." method="_on_ui_zone_1_mouse_exited"]
+[connection signal="mouse_entered" from="UI Zone 2" to="." method="_on_ui_zone_2_mouse_entered"]
+[connection signal="mouse_exited" from="UI Zone 2" to="." method="_on_ui_zone_2_mouse_exited"]

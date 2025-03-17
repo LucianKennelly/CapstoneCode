@@ -3,3 +3,5 @@ res://scripts/example_csv.gd
 res://Scenes/control.tscn
 res://Scenes/main.tscn
 res://Scenes/map_edit.tscn
+res://Scenes/map_edit.gd
+res://Scenes/path_node.tscn
