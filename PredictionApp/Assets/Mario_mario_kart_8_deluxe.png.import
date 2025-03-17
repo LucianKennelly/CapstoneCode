@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bxk4b2frmdsu6"
-path="res://.godot/imported/wallymk.png-fc575960fb1adcb5c3f784af8bb67ed2.ctex"
+uid="uid://lhr2lcs1jdjt"
+path="res://.godot/imported/Mario_mario_kart_8_deluxe.png-158682742d5f2c95504233c57dd135f6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://wallymk.png"
-dest_files=["res://.godot/imported/wallymk.png-fc575960fb1adcb5c3f784af8bb67ed2.ctex"]
+source_file="res://Assets/Mario_mario_kart_8_deluxe.png"
+dest_files=["res://.godot/imported/Mario_mario_kart_8_deluxe.png-158682742d5f2c95504233c57dd135f6.ctex"]
 
 [params]
 

@@ -1,0 +1,27 @@
+[gd_resource type="Theme" load_steps=6 format=3 uid="uid://cencj0im115lh"]
+
+[ext_resource type="FontFile" uid="uid://dxj7vj3ssyhog" path="res://Fonts/TheSans-5_Plain_TRIAL.otf" id="1_hoggu"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bfctj"]
+bg_color = Color(0.313129, 0.355568, 0.380305, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_07tev"]
+bg_color = Color(0.368627, 0.415686, 0.443137, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tqql5"]
+bg_color = Color(0.211314, 0.243374, 0.262044, 1)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_fs3tp"]
+
+[resource]
+Button/colors/font_color = Color(1, 1, 1, 1)
+Button/font_sizes/font_size = 20
+Button/fonts/font = ExtResource("1_hoggu")
+Button/styles/hover = SubResource("StyleBoxFlat_bfctj")
+Button/styles/normal = SubResource("StyleBoxFlat_07tev")
+Button/styles/pressed = SubResource("StyleBoxFlat_tqql5")
+Label/colors/font_color = Color(1, 1, 1, 1)
+Label/font_sizes/font_size = 20
+Label/fonts/font = ExtResource("1_hoggu")
+OptionButton/font_sizes/font_size = 20
+OptionButton/icons/icon = SubResource("ViewportTexture_fs3tp")

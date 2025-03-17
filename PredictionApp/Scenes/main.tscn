@@ -1,33 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://b2ra56potnvv8"]
+[gd_scene load_steps=6 format=3 uid="uid://b2ra56potnvv8"]
 
-[ext_resource type="FontFile" uid="uid://dxj7vj3ssyhog" path="res://Fonts/TheSans-5_Plain_TRIAL.otf" id="1_suo8k"]
-[ext_resource type="Script" uid="uid://buj6t2xc6v634" path="res://scripts/example_csv.gd" id="2_0ibvg"]
-[ext_resource type="Texture2D" uid="uid://bmpov5wxmw81s" path="res://UP_Logo.png" id="2_ylndc"]
-[ext_resource type="Texture2D" uid="uid://lhr2lcs1jdjt" path="res://Mario_mario_kart_8_deluxe.png" id="3_fwpfe"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bfctj"]
-bg_color = Color(0.313129, 0.355568, 0.380305, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_07tev"]
-bg_color = Color(0.368627, 0.415686, 0.443137, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tqql5"]
-bg_color = Color(0.211314, 0.243374, 0.262044, 1)
-
-[sub_resource type="ViewportTexture" id="ViewportTexture_fs3tp"]
-
-[sub_resource type="Theme" id="Theme_vukve"]
-Button/colors/font_color = Color(1, 1, 1, 1)
-Button/font_sizes/font_size = 20
-Button/fonts/font = ExtResource("1_suo8k")
-Button/styles/hover = SubResource("StyleBoxFlat_bfctj")
-Button/styles/normal = SubResource("StyleBoxFlat_07tev")
-Button/styles/pressed = SubResource("StyleBoxFlat_tqql5")
-Label/colors/font_color = Color(1, 1, 1, 1)
-Label/font_sizes/font_size = 20
-Label/fonts/font = ExtResource("1_suo8k")
-OptionButton/font_sizes/font_size = 20
-OptionButton/icons/icon = SubResource("ViewportTexture_fs3tp")
+[ext_resource type="Theme" uid="uid://cencj0im115lh" path="res://Themes/UP_Theme.tres" id="1_kry3j"]
+[ext_resource type="Script" uid="uid://buj6t2xc6v634" path="res://Scripts/example_csv.gd" id="2_21xkr"]
+[ext_resource type="Texture2D" uid="uid://bmpov5wxmw81s" path="res://Assets/UP_Logo.png" id="3_6bp64"]
+[ext_resource type="Texture2D" uid="uid://lhr2lcs1jdjt" path="res://Assets/Mario_mario_kart_8_deluxe.png" id="4_344ge"]
+[ext_resource type="Texture2D" uid="uid://nj4w3to3s5ch" path="res://Assets/empty_map.png" id="5_ynf5e"]
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -35,8 +12,8 @@ anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 grow_horizontal = 2
-theme = SubResource("Theme_vukve")
-script = ExtResource("2_0ibvg")
+theme = ExtResource("1_kry3j")
+script = ExtResource("2_21xkr")
 
 [node name="Background" type="ColorRect" parent="."]
 layout_mode = 0
@@ -44,6 +21,26 @@ offset_left = -576.0
 offset_right = 576.0
 offset_bottom = 648.0
 color = Color(0.117647, 0.0862745, 0.337255, 1)
+
+[node name="UP Logo" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 219.0
+offset_top = 19.0
+offset_right = 511.0
+offset_bottom = 123.0
+texture = ExtResource("3_6bp64")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="Mario" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 272.0
+offset_top = 130.0
+offset_right = 452.0
+offset_bottom = 265.0
+texture = ExtResource("4_344ge")
+expand_mode = 2
+stretch_mode = 5
 
 [node name="Labels" type="Control" parent="."]
 layout_mode = 1
@@ -102,9 +99,9 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -177.0
+offset_left = -157.0
 offset_top = 486.0
-offset_right = -60.0
+offset_right = -40.0
 offset_bottom = 541.0
 grow_horizontal = 2
 theme_override_font_sizes/font_size = 40
@@ -116,10 +113,10 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = 407.0
-offset_top = 220.0
-offset_right = 562.0
-offset_bottom = 273.0
+offset_left = 386.0
+offset_top = 147.0
+offset_right = 541.0
+offset_bottom = 200.0
 grow_horizontal = 2
 theme_override_font_sizes/font_size = 20
 text = "Wahoo"
@@ -135,7 +132,7 @@ offset_bottom = 41.0
 layout_mode = 0
 offset_left = -498.0
 offset_top = 143.0
-offset_right = -173.0
+offset_right = -209.0
 offset_bottom = 200.0
 theme_override_font_sizes/font_size = 25
 placeholder_text = "Coulomb Count"
@@ -144,7 +141,7 @@ placeholder_text = "Coulomb Count"
 layout_mode = 0
 offset_left = -498.0
 offset_top = 224.0
-offset_right = -175.0
+offset_right = -208.0
 offset_bottom = 281.0
 theme_override_font_sizes/font_size = 25
 placeholder_text = "Scaling Constant"
@@ -159,17 +156,17 @@ offset_bottom = 41.0
 
 [node name="Max Speed" type="LineEdit" parent="Kart Settings"]
 layout_mode = 0
-offset_left = -812.0
+offset_left = -793.0
 offset_top = 144.0
-offset_right = -542.0
+offset_right = -599.0
 offset_bottom = 201.0
 theme_override_font_sizes/font_size = 25
 placeholder_text = "Max Speed"
 
 [node name="OptionButton" type="OptionButton" parent="Kart Settings/Max Speed"]
 layout_mode = 0
-offset_left = 279.0
-offset_right = 361.0
+offset_left = 205.0
+offset_right = 283.0
 offset_bottom = 57.0
 selected = 0
 item_count = 4
@@ -184,38 +181,38 @@ popup/item_3/id = 1
 
 [node name="Acceleration" type="LineEdit" parent="Kart Settings"]
 layout_mode = 0
-offset_left = -812.0
+offset_left = -793.0
 offset_top = 225.0
-offset_right = -542.0
+offset_right = -598.0
 offset_bottom = 282.0
 theme_override_font_sizes/font_size = 25
-placeholder_text = "Acceleration"
+placeholder_text = "Torque"
 
 [node name="OptionButton" type="OptionButton" parent="Kart Settings/Acceleration"]
 layout_mode = 0
-offset_left = 279.0
-offset_right = 361.0
+offset_left = 206.0
+offset_right = 284.0
 offset_bottom = 57.0
 selected = 0
 item_count = 2
-popup/item_0/text = "m/s^2"
+popup/item_0/text = "N m"
 popup/item_0/id = 2
-popup/item_1/text = "ft/s^2"
+popup/item_1/text = "lbf ft"
 popup/item_1/id = 3
 
 [node name="Weight" type="LineEdit" parent="Kart Settings"]
 layout_mode = 0
-offset_left = -811.0
+offset_left = -793.0
 offset_top = 304.0
-offset_right = -541.0
+offset_right = -598.0
 offset_bottom = 361.0
 theme_override_font_sizes/font_size = 25
 placeholder_text = "Weight"
 
 [node name="OptionButton" type="OptionButton" parent="Kart Settings/Weight"]
 layout_mode = 0
-offset_left = 279.0
-offset_right = 361.0
+offset_left = 206.0
+offset_right = 284.0
 offset_bottom = 57.0
 selected = 0
 item_count = 3
@@ -228,26 +225,12 @@ popup/item_2/id = 2
 
 [node name="Tire Friction Coeff" type="LineEdit" parent="Kart Settings"]
 layout_mode = 0
-offset_left = -811.0
+offset_left = -793.0
 offset_top = 383.0
-offset_right = -541.0
+offset_right = -508.0
 offset_bottom = 440.0
 theme_override_font_sizes/font_size = 25
 placeholder_text = "Tire Friction Coeff."
-
-[node name="OptionButton" type="OptionButton" parent="Kart Settings/Tire Friction Coeff"]
-layout_mode = 0
-offset_left = 279.0
-offset_right = 361.0
-offset_bottom = 57.0
-selected = 0
-item_count = 3
-popup/item_0/text = "kg"
-popup/item_0/id = 3
-popup/item_1/text = "g"
-popup/item_1/id = 2
-popup/item_2/text = "lbs"
-popup/item_2/id = 2
 
 [node name="Meta" type="Control" parent="."]
 anchors_preset = 0
@@ -257,47 +240,54 @@ offset_right = 22.0
 offset_bottom = 41.0
 
 [node name="Save" type="Button" parent="Meta"]
-layout_mode = 0
-offset_left = -500.0
-offset_top = 486.0
-offset_right = -172.0
-offset_bottom = 539.0
+offset_left = -501.0
+offset_top = 559.0
+offset_right = -338.0
+offset_bottom = 612.0
 theme_override_font_sizes/font_size = 25
 text = "Save Profile"
 
 [node name="Load" type="Button" parent="Meta"]
 layout_mode = 0
-offset_left = -502.0
-offset_top = 558.0
-offset_right = -174.0
-offset_bottom = 611.0
+offset_left = -320.0
+offset_top = 559.0
+offset_right = -154.0
+offset_bottom = 612.0
 theme_override_font_sizes/font_size = 25
 text = "Load Profile"
 
 [node name="OptionButton" type="OptionButton" parent="Meta"]
 layout_mode = 0
-offset_left = -35.0
-offset_top = 483.0
+offset_left = -19.0
+offset_top = 485.0
 offset_right = 212.0
-offset_bottom = 540.0
+offset_bottom = 542.0
 theme_override_font_sizes/font_size = 25
 selected = 0
 item_count = 1
 popup/item_0/text = "example.json"
 popup/item_0/id = 0
 
-[node name="Load2" type="Button" parent="Meta"]
-layout_mode = 0
-offset_left = -148.0
+[node name="New" type="Button" parent="Meta"]
+offset_left = -131.0
 offset_top = 559.0
-offset_right = 213.0
+offset_right = 27.0
+offset_bottom = 612.0
+theme_override_font_sizes/font_size = 25
+text = "New Map"
+
+[node name="Edit" type="Button" parent="Meta"]
+layout_mode = 0
+offset_left = 44.0
+offset_top = 559.0
+offset_right = 212.0
 offset_bottom = 612.0
 theme_override_font_sizes/font_size = 25
 text = "Edit Map"
 
 [node name="Run" type="Button" parent="Meta"]
 layout_mode = 0
-offset_left = 242.0
+offset_left = 237.0
 offset_top = 482.0
 offset_right = 529.0
 offset_bottom = 612.0
@@ -309,11 +299,47 @@ text = "Run Test
 layout_mode = 0
 offset_left = -500.0
 offset_top = 302.0
-offset_right = -175.0
+offset_right = -153.0
 offset_bottom = 388.0
 theme_override_font_sizes/font_size = 25
 text = "Scaling Constant
 Calculator"
+
+[node name="MapPreview" type="TextureRect" parent="Meta"]
+layout_mode = 0
+offset_left = 237.0
+offset_top = 288.0
+offset_right = 529.0
+offset_bottom = 461.0
+texture = ExtResource("5_ynf5e")
+expand_mode = 1
+stretch_mode = 1
+
+[node name="Kart" type="Label" parent="Meta"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -521.0
+offset_top = 485.0
+offset_right = -388.0
+offset_bottom = 540.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 40
+text = "Profile: "
+horizontal_alignment = 1
+
+[node name="OptionButton2" type="OptionButton" parent="Meta"]
+layout_mode = 0
+offset_left = -363.0
+offset_top = 485.0
+offset_right = -154.0
+offset_bottom = 542.0
+theme_override_font_sizes/font_size = 25
+selected = 0
+item_count = 1
+popup/item_0/text = "example.json"
+popup/item_0/id = 0
 
 [node name="Hints" type="Control" parent="."]
 anchors_preset = 0
@@ -322,82 +348,62 @@ offset_bottom = 40.0
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Hints"]
 layout_mode = 0
-offset_left = -554.0
-offset_top = 152.0
-offset_right = -514.0
-offset_bottom = 192.0
+offset_left = -208.0
+offset_top = 157.0
+offset_right = -168.0
+offset_bottom = 197.0
 tooltip_text = "The number of coulombs equivalent to a full charge of the battery. See Manual section 3.2 for determination procedure"
 theme_override_font_sizes/normal_font_size = 25
 text = "(?)"
 
 [node name="RichTextLabel2" type="RichTextLabel" parent="Hints"]
 layout_mode = 0
-offset_left = 212.0
-offset_top = 393.0
-offset_right = 252.0
-offset_bottom = 433.0
+offset_left = 151.0
+offset_top = 390.0
+offset_right = 191.0
+offset_bottom = 430.0
 tooltip_text = "Test"
 theme_override_font_sizes/normal_font_size = 25
 text = "(?)"
 
 [node name="RichTextLabel3" type="RichTextLabel" parent="Hints"]
 layout_mode = 0
-offset_left = 210.0
-offset_top = 316.0
-offset_right = 250.0
-offset_bottom = 356.0
+offset_left = 151.0
+offset_top = 311.0
+offset_right = 191.0
+offset_bottom = 351.0
 tooltip_text = "Test"
 theme_override_font_sizes/normal_font_size = 25
 text = "(?)"
 
 [node name="RichTextLabel4" type="RichTextLabel" parent="Hints"]
 layout_mode = 0
-offset_left = 210.0
-offset_top = 237.0
-offset_right = 250.0
-offset_bottom = 277.0
+offset_left = 151.0
+offset_top = 232.0
+offset_right = 191.0
+offset_bottom = 272.0
 tooltip_text = "Test"
 theme_override_font_sizes/normal_font_size = 25
 text = "(?)"
 
 [node name="RichTextLabel5" type="RichTextLabel" parent="Hints"]
 layout_mode = 0
-offset_left = 209.0
-offset_top = 156.0
-offset_right = 249.0
-offset_bottom = 196.0
+offset_left = 151.0
+offset_top = 153.0
+offset_right = 191.0
+offset_bottom = 193.0
 tooltip_text = "Test"
 theme_override_font_sizes/normal_font_size = 25
 text = "(?)"
 
 [node name="RichTextLabel6" type="RichTextLabel" parent="Hints"]
 layout_mode = 0
-offset_left = -554.0
-offset_top = 236.0
-offset_right = -514.0
-offset_bottom = 276.0
+offset_left = -209.0
+offset_top = 237.0
+offset_right = -169.0
+offset_bottom = 277.0
 tooltip_text = "Test"
 theme_override_font_sizes/normal_font_size = 25
 text = "(?)"
-
-[node name="UP Logo" type="TextureRect" parent="."]
-layout_mode = 0
-offset_left = 247.0
-offset_top = -16.0
-offset_right = 529.0
-offset_bottom = 157.0
-texture = ExtResource("2_ylndc")
-expand_mode = 2
-stretch_mode = 5
-
-[node name="Mario" type="TextureRect" parent="."]
-layout_mode = 0
-offset_left = 279.0
-offset_top = 193.0
-offset_right = 498.0
-offset_bottom = 369.0
-texture = ExtResource("3_fwpfe")
-expand_mode = 2
-stretch_mode = 5
 
 [connection signal="pressed" from="Meta/Run" to="." method="_on_run_pressed"]
