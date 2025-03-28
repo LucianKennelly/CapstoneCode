@@ -1,9 +1,6 @@
-res://scenes/control.tscn
-res://scripts/example_csv.gd
-res://scripts/default.json
-res://scripts/save_manager.gd
-res://Scripts/example_csv.gd
-res://addons/csv-data-importer/csv_data.gd
-res://addons/csv-data-importer/import_plugin.gd
-res://addons/csv-data-importer/plugin.cfg
 res://Scenes/control.tscn
+res://Scenes/map_edit.tscn
+res://Themes/UP_Theme.tres
+res://Scripts/map_edit.gd
+res://Scripts/example_csv.gd
+res://Scenes/main.tscn

@@ -1,4 +1,7 @@
+# Authors: Xavier Santiago (santiago25@up.edu)
+
 extends Control
+class_name Map_Editor
 
 # keep track of path
 var points: Array[Vector2] = []
@@ -20,13 +23,21 @@ var is_ruler = false
 # offset of selected node from mouse
 var drag_offset = Vector2.ZERO
 
-var mouse_over_ui = false
+var drawable = true
+
+# ui buttons
+@onready var scale_units := $Scale/OptionButton
+@onready var scale_value := $Scale/SpinBox
 
 # scaling points
 @onready var ruler = [$"Path Node", $"Path Node2"]
+@onready var ruler_anchors
+
+# reference to main scene
+var main_ref: Main
 
 func _ready() -> void:
-	pass
+	ruler_anchors = [ruler[0].position, ruler[1].position]
 	
 func _process(delta: float) -> void:
 	# drag point if necessary
@@ -47,16 +58,31 @@ func _draw():
 	
 	# draw path
 	for i in range(len(points)):
+		var color = Color.YELLOW # most lines
+		if i == 0:
+			color = Color.GREEN # start line
+		if i == len(points)-1:
+			color = Color.RED # end line
+			
+		# get points to draw arrow between
+		var pos1 = points[i]
+		var pos2 = points[0] # if last point use first point
 		if i < len(points)-1:
-			draw_line(points[i], points[i+1], Color.GREEN, 1.0)
-		else:
-			draw_line(points[i], points[0], Color.RED, 1.0)
+			pos2 = points[i+1]
+		
+		# draw connecting line
+		draw_line(pos1, pos2, color, 1.0)
+		# draw little arrows
+		var v = pos2-pos1
+		v = v.normalized()*10
+		draw_line(pos2-v, pos2-v-v.rotated(PI/8), color, 1.0)
+		draw_line(pos2-v, pos2-v-v.rotated(-PI/8), color, 1.0)
 
 func _input(event):
-	if mouse_over_ui:
+	if !self.visible:
 		return
 	# Mouse in viewport coordinates.
-	if event is InputEventMouseButton:
+	if event is InputEventMouseButton && drawable:
 		# save mouse state
 		mouse_held = event.pressed
 		
@@ -133,26 +159,77 @@ func _input(event):
 				var newNode: Node2D = path_node.instantiate()
 				# move to correct position
 				newNode.global_position = mouse_pos
+				if len(points) == 0:
+					# if this is first point created, automatically set as start
+					newNode.scale = Vector2(1.4,1.4)
 				# add to current scene
 				add_child(newNode)
 				# keep track of point
 				icons.insert(insert_at, newNode)
 				points.insert(insert_at, mouse_pos)
+					
 				# allow dragging most recent point
 				selected_index = insert_at
 
-
+# check whether mouse in draw area (i.e. not over UI)
 func _on_ui_zone_1_mouse_entered() -> void:
-	mouse_over_ui = true
-
+	drawable = true
 
 func _on_ui_zone_1_mouse_exited() -> void:
-	mouse_over_ui = false
+	drawable = false
+
+# returns the list of points formatted such that
+# - start position is at 0, 0
+# - coordinates are listed in meters
+func export_path() -> Array[Vector2]:
+	var path_data: Array[Vector2] = []
+	
+	# adjust points so start is at [0,0] and coordinates are in meters from start
+	for each in points:
+		var p_translated = each-points[0]
+		# coords in screen space have 0,0 at top left, for sake of intuition we flip the y axis
+		var p_mirrored = Vector2(p_translated.x, -p_translated.y)
+		var scale_factor = int(scale_value.get_line_edit().text)
+		if scale_units.get_item_text(scale_units.selected) == "ft":
+			scale_factor /= 3.28084 # feet to meters conversion, 99.9999968% accuracy
+		var p_scaled = (p_mirrored/ruler[0].position.distance_to(ruler[1].position))*scale_factor
+		path_data.append(p_scaled)
+	
+	return path_data
 
 
-func _on_ui_zone_2_mouse_entered() -> void:
-	mouse_over_ui = true
+func _on_save_pressed() -> void:
+	# placeholder
+	print(export_path())
 
+# reverse list
+func _on_reverse_pressed() -> void:
+	points.reverse()
+	points.insert(0, points.back())
+	points.pop_back()
+	
+	icons.reverse()
+	icons.insert(0, icons.back())
+	icons.pop_back()
 
-func _on_ui_zone_2_mouse_exited() -> void:
-	mouse_over_ui = false
+# return to main scene
+func _on_back_pressed() -> void:
+	main_ref.return_to_focus()
+
+# reset path
+func reset() -> void:
+	# reset list of points
+	points.clear()
+	
+	# delete all icon objects then delete list
+	for each in icons:
+		each.queue_free()
+	icons.clear()
+	
+	# reset ruler position
+	ruler[0].position = ruler_anchors[0]
+	ruler[1].position = ruler_anchors[1]
+
+	# reset scale
+	scale_value.get_line_edit().text = "1"
+	scale_units.selected = 0

@@ -23,5 +23,6 @@ Button/styles/pressed = SubResource("StyleBoxFlat_tqql5")
 Label/colors/font_color = Color(1, 1, 1, 1)
 Label/font_sizes/font_size = 20
 Label/fonts/font = ExtResource("1_hoggu")
+LineEdit/font_sizes/font_size = 25
 OptionButton/font_sizes/font_size = 20
 OptionButton/icons/icon = SubResource("ViewportTexture_fs3tp")

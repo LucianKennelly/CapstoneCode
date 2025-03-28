@@ -2,8 +2,8 @@
 
 [ext_resource type="FontFile" uid="uid://dxj7vj3ssyhog" path="res://Fonts/TheSans-5_Plain_TRIAL.otf" id="1_suo8k"]
 [ext_resource type="Script" uid="uid://buj6t2xc6v634" path="res://Scripts/example_csv.gd" id="2_0ibvg"]
-[ext_resource type="Texture2D" path="res://UP_Logo.png" id="2_ylndc"]
-[ext_resource type="Texture2D" path="res://Mario_mario_kart_8_deluxe.png" id="3_fwpfe"]
+[ext_resource type="Texture2D" uid="uid://bmpov5wxmw81s" path="res://Assets/UP_Logo.png" id="3_wpaqk"]
+[ext_resource type="Texture2D" uid="uid://lhr2lcs1jdjt" path="res://Assets/Mario_mario_kart_8_deluxe.png" id="4_btyrf"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bfctj"]
 bg_color = Color(0.313129, 0.355568, 0.380305, 1)
@@ -286,7 +286,7 @@ item_count = 1
 popup/item_0/text = "example.json"
 popup/item_0/id = 0
 
-[node name="Load2" type="Button" parent="Meta"]
+[node name="Edit Map" type="Button" parent="Meta"]
 layout_mode = 0
 offset_left = -148.0
 offset_top = 559.0
@@ -394,7 +394,7 @@ offset_left = 247.0
 offset_top = -16.0
 offset_right = 529.0
 offset_bottom = 157.0
-texture = ExtResource("2_ylndc")
+texture = ExtResource("3_wpaqk")
 expand_mode = 2
 stretch_mode = 5
 
@@ -404,7 +404,7 @@ offset_left = 279.0
 offset_top = 193.0
 offset_right = 498.0
 offset_bottom = 369.0
-texture = ExtResource("3_fwpfe")
+texture = ExtResource("4_btyrf")
 expand_mode = 2
 stretch_mode = 5
 

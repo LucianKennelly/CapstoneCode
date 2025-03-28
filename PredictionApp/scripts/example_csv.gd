@@ -1,4 +1,6 @@
 extends Node
+class_name Main
+
 var data = preload("res://data/testNov8.csv")
 var load_data = {}
 var save_data
@@ -9,6 +11,10 @@ var Max_Speed
 var Acceleration
 var Weight
 var Friction
+
+# map scene
+var map_scene: Map_Editor = preload("res://Scenes/map_edit.tscn").instantiate()
+var map_loaded = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -22,7 +28,11 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	pass
+	if !map_loaded:
+		map_scene.visible = false
+		get_tree().root.add_child(map_scene)
+		map_scene.main_ref = self
+		map_loaded = true
 
 
 func _on_run_pressed() -> void:
@@ -70,9 +80,27 @@ func _on_save_pressed() -> void:
 	load_data["friction"] = Friction.text.to_float()
 	load_data["max_speed"] = Max_Speed.text.to_float()
 	load_data["scaling"] = Scaling.text.to_float()
-	print(load_data)
+	#print(load_data)
 	SaveManager.savef(load_data)
 
 
 func _on_path_text_changed(new_text: String) -> void:
 	SaveManager.load_path = new_text
+
+
+# open scene with no additional steps
+func _on_new_map_pressed() -> void:
+	map_scene.reset()
+	launch_map()
+	
+# function caled when returning from map edit
+func return_to_focus() -> void:
+	self.visible = true
+	map_scene.visible = false
+
+func _on_edit_map_pressed() -> void:
+	launch_map()
+
+func launch_map():
+	self.visible = false
+	map_scene.visible = true
