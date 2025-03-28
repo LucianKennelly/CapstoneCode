@@ -4,3 +4,4 @@ res://Themes/UP_Theme.tres
 res://Scripts/map_edit.gd
 res://Scripts/example_csv.gd
 res://Scenes/main.tscn
+res://Scenes/path_node.tscn

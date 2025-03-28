@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=3 uid="uid://b2feesr0p1oum"]
 
 [ext_resource type="FontFile" uid="uid://dxj7vj3ssyhog" path="res://Fonts/TheSans-5_Plain_TRIAL.otf" id="1_suo8k"]
-[ext_resource type="Script" uid="uid://buj6t2xc6v634" path="res://Scripts/example_csv.gd" id="2_0ibvg"]
+[ext_resource type="Script" uid="uid://buj6t2xc6v634" path="res://Scripts/main.gd" id="2_0ibvg"]
 [ext_resource type="Texture2D" uid="uid://bmpov5wxmw81s" path="res://Assets/UP_Logo.png" id="3_wpaqk"]
 [ext_resource type="Texture2D" uid="uid://lhr2lcs1jdjt" path="res://Assets/Mario_mario_kart_8_deluxe.png" id="4_btyrf"]
 

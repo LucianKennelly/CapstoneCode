@@ -1,9 +1,14 @@
 [gd_scene load_steps=2 format=3 uid="uid://qnvr0y8k5vqa"]
 
-[ext_resource type="Texture2D" uid="uid://c54oa3jnmxg2q" path="res://Assets/icon.svg" id="1_l5723"]
+[sub_resource type="SphereMesh" id="SphereMesh_50mg5"]
 
 [node name="Path Node" type="Node2D"]
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.1, 0.1)
-texture = ExtResource("1_l5723")
+[node name="Outer" type="MeshInstance2D" parent="."]
+modulate = Color(0.554954, 0.554954, 0.554954, 1)
+scale = Vector2(12, 12)
+mesh = SubResource("SphereMesh_50mg5")
+
+[node name="Inner" type="MeshInstance2D" parent="."]
+scale = Vector2(6, 6)
+mesh = SubResource("SphereMesh_50mg5")
