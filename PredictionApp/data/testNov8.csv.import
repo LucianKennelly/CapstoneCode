@@ -3,12 +3,12 @@
 importer="com.timothyqiu.godot-csv-importer"
 type="Resource"
 uid="uid://c2o2k66a3qtb1"
-path="res://.godot/imported/testNov8.csv-ce305af1a7f1d5c89c83731967bb711a.res"
+path="res://.godot/imported/testNov8.csv-9fb44c1ae344da5e901ba954d9f3a3d8.res"
 
 [deps]
 
-source_file="res://Data/testNov8.csv"
-dest_files=["res://.godot/imported/testNov8.csv-ce305af1a7f1d5c89c83731967bb711a.res"]
+source_file="res://data/testNov8.csv"
+dest_files=["res://.godot/imported/testNov8.csv-9fb44c1ae344da5e901ba954d9f3a3d8.res"]
 
 [params]
 

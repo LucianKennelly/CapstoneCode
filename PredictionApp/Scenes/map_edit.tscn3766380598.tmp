@@ -139,5 +139,4 @@ position = Vector2(287, 536)
 [connection signal="mouse_exited" from="Draw_Zone" to="." method="_on_ui_zone_1_mouse_exited"]
 [connection signal="pressed" from="Menu Bar/Save" to="." method="_on_save_pressed"]
 [connection signal="pressed" from="Menu Bar/Back" to="." method="_on_back_pressed"]
-[connection signal="pressed" from="Menu Bar/Load Map" to="." method="_on_load_map_pressed"]
 [connection signal="pressed" from="Scale/Reverse" to="." method="_on_reverse_pressed"]
