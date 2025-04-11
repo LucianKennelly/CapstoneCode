@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://b2ra56potnvv8"]
 
 [ext_resource type="Theme" uid="uid://cencj0im115lh" path="res://Themes/UP_Theme.tres" id="1_kry3j"]
-[ext_resource type="Script" uid="uid://buj6t2xc6v634" path="res://Scripts/main.gd" id="2_21xkr"]
+[ext_resource type="Script" uid="uid://buj6t2xc6v634" path="res://scripts/main.gd" id="2_21xkr"]
 [ext_resource type="Texture2D" uid="uid://bmpov5wxmw81s" path="res://Assets/UP_Logo.png" id="3_6bp64"]
 [ext_resource type="Texture2D" uid="uid://lhr2lcs1jdjt" path="res://Assets/Mario_mario_kart_8_deluxe.png" id="4_344ge"]
 [ext_resource type="Texture2D" uid="uid://nj4w3to3s5ch" path="res://Assets/empty_map.png" id="5_ynf5e"]
@@ -253,18 +253,6 @@ offset_top = 1.0
 offset_right = 22.0
 offset_bottom = 41.0
 
-[node name="Select Profile" type="OptionButton" parent="Meta"]
-layout_mode = 0
-offset_left = -363.0
-offset_top = 485.0
-offset_right = -154.0
-offset_bottom = 542.0
-theme_override_font_sizes/font_size = 25
-selected = 0
-item_count = 1
-popup/item_0/text = "example.json"
-popup/item_0/id = 0
-
 [node name="Save Profile" type="Button" parent="Meta"]
 layout_mode = 0
 offset_left = -501.0
@@ -282,18 +270,6 @@ offset_right = -154.0
 offset_bottom = 612.0
 theme_override_font_sizes/font_size = 25
 text = "Load Profile"
-
-[node name="Select Map" type="OptionButton" parent="Meta"]
-layout_mode = 0
-offset_left = -19.0
-offset_top = 485.0
-offset_right = 212.0
-offset_bottom = 542.0
-theme_override_font_sizes/font_size = 25
-selected = 0
-item_count = 1
-popup/item_0/text = "example.json"
-popup/item_0/id = 0
 
 [node name="New Map" type="Button" parent="Meta"]
 layout_mode = 0
@@ -342,6 +318,22 @@ offset_bottom = 388.0
 theme_override_font_sizes/font_size = 25
 text = "Scaling Constant
 Calculator"
+
+[node name="Profile" type="LineEdit" parent="Meta"]
+layout_mode = 0
+offset_left = -366.0
+offset_top = 493.0
+offset_right = -150.0
+offset_bottom = 536.0
+placeholder_text = "res://data/*.json"
+
+[node name="Map" type="LineEdit" parent="Meta"]
+layout_mode = 0
+offset_left = -23.0
+offset_top = 494.0
+offset_right = 211.0
+offset_bottom = 537.0
+placeholder_text = "res://data/*.json"
 
 [node name="Hints" type="Control" parent="."]
 anchors_preset = 0
@@ -408,6 +400,16 @@ tooltip_text = "Test"
 theme_override_font_sizes/normal_font_size = 25
 text = "(?)"
 
+[connection signal="text_changed" from="Battery/CC" to="." method="_on_cc_text_changed"]
+[connection signal="text_changed" from="Battery/Scaling Const" to="." method="_on_scaling_const_text_changed"]
+[connection signal="text_changed" from="Kart Settings/Max Speed" to="." method="_on_max_speed_text_changed"]
+[connection signal="text_changed" from="Kart Settings/Acceleration" to="." method="_on_acceleration_text_changed"]
+[connection signal="text_changed" from="Kart Settings/Weight" to="." method="_on_weight_text_changed"]
+[connection signal="text_changed" from="Kart Settings/Tire Friction Coeff" to="." method="_on_tire_friction_coeff_text_changed"]
+[connection signal="pressed" from="Meta/Save Profile" to="." method="_on_save_profile_pressed"]
+[connection signal="pressed" from="Meta/Load Profile" to="." method="_on_load_profile_pressed"]
 [connection signal="pressed" from="Meta/New Map" to="." method="_on_new_map_pressed"]
 [connection signal="pressed" from="Meta/Edit Map" to="." method="_on_edit_map_pressed"]
 [connection signal="pressed" from="Meta/Run Test" to="." method="_on_run_pressed"]
+[connection signal="text_changed" from="Meta/Profile" to="." method="_on_profile_text_changed"]
+[connection signal="text_changed" from="Meta/Map" to="." method="_on_map_text_changed"]

@@ -50,7 +50,7 @@ func _process(delta: float) -> void:
 		
 	# draw lines along path
 	queue_redraw()
-		
+	#print(icons)
 func _draw():
 	# draw measurement stick
 	if ruler[0] && ruler[1]:
@@ -199,8 +199,8 @@ func export_path() -> Array[Vector2]:
 
 
 func _on_save_pressed() -> void:
-	# placeholder
-	print(export_path())
+	SaveManager.savepath(points)
+	#print(export_path())
 
 # reverse list
 func _on_reverse_pressed() -> void:
@@ -233,3 +233,18 @@ func reset() -> void:
 	# reset scale
 	scale_value.get_line_edit().text = "1"
 	scale_units.selected = 0
+
+
+func _on_load_map_pressed() -> void:
+	#print(points)
+	#print(SaveManager.readpath())
+	reset()
+	points = SaveManager.readpath()
+	var data: Array[Node2D] = []
+	icons.clear()
+	for each in points:
+		var newNode: Node2D = path_node.instantiate()
+		newNode.global_position = Vector2(each[0],each[1])
+		add_child(newNode)
+		icons.append(newNode)
+	print(icons)
