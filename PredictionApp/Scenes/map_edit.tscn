@@ -121,6 +121,7 @@ allow_greater = true
 alignment = 1
 
 [node name="Reverse" type="Button" parent="Scale"]
+layout_mode = 0
 offset_left = -715.0
 offset_top = 13.0
 offset_right = -556.0

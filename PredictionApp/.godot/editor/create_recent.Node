@@ -1,3 +1,4 @@
+TextureRect
 MeshInstance2D
 Polygon2D
 SpinBox
@@ -8,4 +9,3 @@ OptionButton
 Label
 Button
 Window
-TextureRect
