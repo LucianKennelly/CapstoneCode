@@ -1,3 +1,5 @@
+TextEdit
+Button
 TextureRect
 MeshInstance2D
 Polygon2D
@@ -7,5 +9,4 @@ Control
 Sprite2D
 OptionButton
 Label
-Button
 Window

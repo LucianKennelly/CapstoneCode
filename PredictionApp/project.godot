@@ -18,6 +18,7 @@ config/icon="res://Assets/icon.svg"
 [autoload]
 
 SaveManager="*res://scripts/save_manager.gd"
+Global="*res://Global.gd"
 
 [display]
 

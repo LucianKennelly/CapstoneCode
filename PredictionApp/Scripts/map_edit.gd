@@ -214,7 +214,9 @@ func _on_reverse_pressed() -> void:
 
 # return to main scene
 func _on_back_pressed() -> void:
-	main_ref.return_to_focus()
+	Global.points = export_path()
+	get_tree().change_scene_to_file("res://Scenes/main.tscn")
+	#main_ref.return_to_focus()
 
 # reset path
 func reset() -> void:

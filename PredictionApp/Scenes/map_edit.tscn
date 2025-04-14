@@ -51,7 +51,7 @@ offset_top = 16.0
 offset_right = 520.0
 offset_bottom = 69.0
 theme_override_font_sizes/font_size = 25
-text = "Save"
+text = "Save Map"
 
 [node name="Back" type="Button" parent="Menu Bar"]
 layout_mode = 0
@@ -63,6 +63,7 @@ theme_override_font_sizes/font_size = 25
 text = "Back"
 
 [node name="Save As" type="Button" parent="Menu Bar"]
+visible = false
 layout_mode = 0
 offset_left = 532.0
 offset_top = 16.0

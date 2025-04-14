@@ -302,7 +302,7 @@ stretch_mode = 1
 [node name="Run Test" type="Button" parent="Meta"]
 layout_mode = 0
 offset_left = 237.0
-offset_top = 482.0
+offset_top = 558.0
 offset_right = 529.0
 offset_bottom = 612.0
 theme_override_font_sizes/font_size = 25
@@ -327,13 +327,13 @@ offset_right = -150.0
 offset_bottom = 536.0
 placeholder_text = "res://data/*.json"
 
-[node name="Map" type="LineEdit" parent="Meta"]
+[node name="Output" type="TextEdit" parent="Meta"]
 layout_mode = 0
-offset_left = -23.0
-offset_top = 494.0
-offset_right = 211.0
-offset_bottom = 537.0
-placeholder_text = "res://data/*.json"
+offset_left = 238.0
+offset_top = 504.0
+offset_right = 531.0
+offset_bottom = 544.0
+placeholder_text = "Output: (% battery loss)"
 
 [node name="Hints" type="Control" parent="."]
 anchors_preset = 0
@@ -412,4 +412,3 @@ text = "(?)"
 [connection signal="pressed" from="Meta/Edit Map" to="." method="_on_edit_map_pressed"]
 [connection signal="pressed" from="Meta/Run Test" to="." method="_on_run_pressed"]
 [connection signal="text_changed" from="Meta/Profile" to="." method="_on_profile_text_changed"]
-[connection signal="text_changed" from="Meta/Map" to="." method="_on_map_text_changed"]

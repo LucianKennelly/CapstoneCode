@@ -11,6 +11,10 @@ var Max_Speed
 var Acceleration
 var Weight
 var Friction
+var SOC: float
+var Q
+var I
+var t
 
 # map scene
 var map_scene: Map_Editor = preload("res://Scenes/map_edit.tscn").instantiate()
@@ -24,6 +28,7 @@ func _ready() -> void:
 	Acceleration = $"Kart Settings/Acceleration"
 	Weight = $"Kart Settings/Weight"
 	Friction = $"Kart Settings/Tire Friction Coeff"
+	SOC = float(CC.text)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -36,7 +41,24 @@ func _process(delta: float) -> void:
 
 
 func _on_run_pressed() -> void:
-	print(data.records[0]["time"])
+	var C = 1.099 # C battery capacity
+	var I_avg = 26.1 # A
+	var V_avg = 11.93 # V
+	Q = 3.19 # aH
+	SOC = float(CC.text)
+	for point in Global.points:
+		#print(SOC)
+		if (point.x == 0):
+			t = 0
+		else:
+			t = float(Max_Speed.text)/sqrt(pow(point.x,2) + pow(point.y,2)) # delta time
+		print("time:"+str(t))
+		print(-t/(C*(V_avg/I_avg)))
+		I = float(7*pow(exp(1),float(-t/(C*(V_avg/I_avg)))))
+		SOC = SOC + (1/Q)*(-I) # coulomb count change
+		$Meta/Output.text = str((float(CC.text)-SOC)) + "%"
+		break
+	pass
 
 
 func _on_load_pressed() -> void:
@@ -50,7 +72,7 @@ func _on_load_pressed() -> void:
 	print(save_data.cc)
 
 func _on_tire_friction_coeff_text_changed(new_text: String) -> void:
-	CC.text = new_text
+	Friction.text = new_text
 
 
 func _on_weight_text_changed(new_text: String) -> void:
@@ -107,7 +129,6 @@ func launch_map():
 
 
 func _on_load_profile_pressed() -> void:
-#	SaveManager.path = load_path
 	save_data = SaveManager.read()
 	print(save_data)
 	CC.text = str(save_data.cc)
@@ -119,11 +140,10 @@ func _on_load_profile_pressed() -> void:
 
 
 func _on_profile_text_changed(new_text: String) -> void:
-	load_path = new_text
+	SaveManager.save_path = new_text
 
 
 func _on_save_profile_pressed() -> void:
-#	SaveManager.path = load_path
 #	SaveManager.create_new_save()
 	load_data["acceleration"] = Acceleration.text.to_float()
 	load_data["cc"] = CC.text.to_float()
@@ -133,6 +153,4 @@ func _on_save_profile_pressed() -> void:
 	load_data["scaling"] = Scaling.text.to_float()
 	SaveManager.savef(load_data)
 
-
-func _on_map_text_changed(new_text: String) -> void:
-	map_load = new_text
+	
