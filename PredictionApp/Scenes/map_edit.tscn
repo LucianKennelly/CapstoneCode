@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://dybgdho40xc2l"]
 
 [ext_resource type="Theme" uid="uid://cencj0im115lh" path="res://Themes/UP_Theme.tres" id="1_scknq"]
-[ext_resource type="Script" uid="uid://cek853e157lu3" path="res://scripts/map_edit.gd" id="2_54ysc"]
+[ext_resource type="Script" uid="uid://cek853e157lu3" path="res://Scripts/map_edit.gd" id="2_54ysc"]
 [ext_resource type="PackedScene" uid="uid://qnvr0y8k5vqa" path="res://Scenes/path_node.tscn" id="3_l0088"]
 
 [node name="Map Edit" type="Control"]

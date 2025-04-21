@@ -1,8 +1,6 @@
 res://Scenes/main.tscn
 res://Themes/UP_Theme.tres
-res://scripts/map_edit.gd
-res://scripts/main.gd
-res://Global.gd
+res://Scripts/main.gd
+res://scripts/save_manager.gd
 res://Scenes/map_edit.tscn
 res://Scenes/path_node.tscn
-res://scripts/save_manager.gd

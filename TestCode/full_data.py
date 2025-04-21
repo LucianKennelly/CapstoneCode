@@ -8,7 +8,7 @@ max_v = 26.8 # velocity (m/s)
 max_a = max_v/3 # acceleration (m/s^2)
 friction_coeff = 0.7 # friction between tires and ground (guess from google)
 cart_weight = 2 # (kg)
-drag_coeff = 1/4 # coefficient of drag moving forwards, basically jsut a scaling constant
+drag_coeff = 0#1/80 # coefficient of drag moving forwards, basically jsut a scaling constant
 
 # path data
 pointList = [[0,0],[61,0],[63,1],[64,3],[63,5],[61,6],[0,6],[-2,5],[-3,3],[-2,1]]
@@ -28,8 +28,8 @@ work = []
 power = []
 g = 9.8
 
-# MISSING PATH FORMATTING SECTION
-# will need to format path to not have points too far away and to account for laps by repeating path
+
+# format path to not have points too far away and to account for laps by repeating path
 i = 0
 while True:
     x1 = pointList[i-1]
@@ -157,13 +157,13 @@ fields = next(csvreader)
 for row in csvreader:
     rows.append(row)
 
-dt = 2 # each row is 2 secs apart
+dt = 0.2 # each row is 0.2 secs apart
 work = [0]
 times = []
 for i in range(len(rows)):
     if i > 0:
         work.append(work[i-1]+float(rows[i][1])*dt)
-    times.append(i/(len(rows)))
+    times.append(i/len(rows))
 
 
 # get estimate of time taken in ideal case
@@ -173,14 +173,47 @@ for i in range(len(pointList)):
         x1 = pointList[i-1]
         x2 = pointList[i]
         dx = math.sqrt((x1[0]-x2[0])**2+(x1[1]-x2[1])**2)
-        timeEst.append(timeEst[-1]+dx/ideal_vs[i]*10) # had to make ideal path 10x slower lol
+        timeEst.append(timeEst[-1]+dx/ideal_vs[i])
 
 
 for i in range(len(timeEst)):
     timeEst[i] = timeEst[i]/timeEst[-1]
 
-plt.plot(times, work)
-plt.plot(timeEst, totalWork)
-plt.xlabel("Percentage Time")
+_, ax = plt.subplots()
+ax.plot(timeEst, totalWork, color="orange", label="Predicted")
+ax.plot(times, work, color="blue", label="Experimental")
+ax.legend()
+plt.xlabel("Time (s)")
 plt.ylabel("Work Done (J)")
+plt.title("Prediction/Test Comparison")
+plt.show()
+
+work_extrapolated = []
+for each in times:
+    closest = abs(each-timeEst[0])
+    closesti = 0
+    for i in range(len(timeEst)):
+        if abs(each-timeEst[i]) < closest:
+            closest = abs(each-timeEst[i])
+            closesti = i
+
+    work_extrapolated.append(totalWork[closesti])
+
+# error analysis
+slope, intercept, r, p, std_err = stats.linregress(work_extrapolated, work)
+
+def myfunc(x):
+  return slope * x + intercept
+
+mymodel = list(map(myfunc, work_extrapolated))
+
+print(f"Slope: {round(slope,2)}, Intercept: {round(intercept,2)}, R: {round(r,4)}, P: {round(p,5)}, Standard Error: {round(std_err,4)}")
+
+_, ax = plt.subplots()
+ax.scatter(work_extrapolated, work)
+ax.plot(work_extrapolated, mymodel, color="orange", label=f"y={round(slope,2)}x+{round(intercept,2)}, R^2={round(r**2,4)}")
+ax.legend()
+plt.xlabel("Predicted Energy")
+plt.ylabel("Experimental Energy")
+plt.title("Single Test Accuracy Analysis")
 plt.show()

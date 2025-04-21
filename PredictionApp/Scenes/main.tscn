@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://b2ra56potnvv8"]
 
 [ext_resource type="Theme" uid="uid://cencj0im115lh" path="res://Themes/UP_Theme.tres" id="1_kry3j"]
-[ext_resource type="Script" uid="uid://buj6t2xc6v634" path="res://scripts/main.gd" id="2_21xkr"]
+[ext_resource type="Script" uid="uid://buj6t2xc6v634" path="res://Scripts/main.gd" id="2_21xkr"]
 [ext_resource type="Texture2D" uid="uid://bmpov5wxmw81s" path="res://Assets/UP_Logo.png" id="3_6bp64"]
 [ext_resource type="Texture2D" uid="uid://lhr2lcs1jdjt" path="res://Assets/Mario_mario_kart_8_deluxe.png" id="4_344ge"]
 [ext_resource type="Texture2D" uid="uid://nj4w3to3s5ch" path="res://Assets/empty_map.png" id="5_ynf5e"]
@@ -99,14 +99,13 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -157.0
+offset_left = -150.0
 offset_top = 486.0
-offset_right = -40.0
+offset_right = 193.0
 offset_bottom = 541.0
 grow_horizontal = 2
 theme_override_font_sizes/font_size = 40
 text = "Map:"
-horizontal_alignment = 1
 
 [node name="Wahoo" type="Label" parent="Labels"]
 layout_mode = 1
@@ -128,12 +127,11 @@ anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -519.0
 offset_top = 486.0
-offset_right = -386.0
+offset_right = -171.0
 offset_bottom = 541.0
 grow_horizontal = 2
 theme_override_font_sizes/font_size = 40
 text = "Profile: "
-horizontal_alignment = 1
 
 [node name="Battery" type="Control" parent="."]
 anchors_preset = 0
@@ -142,14 +140,26 @@ offset_top = 1.0
 offset_right = 22.0
 offset_bottom = 41.0
 
-[node name="CC" type="LineEdit" parent="Battery"]
+[node name="Capacity" type="LineEdit" parent="Battery"]
 layout_mode = 0
 offset_left = -498.0
 offset_top = 143.0
-offset_right = -209.0
+offset_right = -298.0
 offset_bottom = 200.0
 theme_override_font_sizes/font_size = 25
-placeholder_text = "Coulomb Count"
+placeholder_text = "Battery Charge"
+
+[node name="OptionButton" type="OptionButton" parent="Battery/Capacity"]
+offset_left = 212.0
+offset_top = -1.0
+offset_right = 290.0
+offset_bottom = 56.0
+selected = 0
+item_count = 2
+popup/item_0/text = "Ah"
+popup/item_0/id = 0
+popup/item_1/text = "C"
+popup/item_1/id = 1
 
 [node name="Scaling Const" type="LineEdit" parent="Battery"]
 layout_mode = 0
@@ -159,6 +169,25 @@ offset_right = -208.0
 offset_bottom = 281.0
 theme_override_font_sizes/font_size = 25
 placeholder_text = "Scaling Constant"
+
+[node name="Verification" type="LineEdit" parent="Battery"]
+offset_left = -499.0
+offset_top = 383.0
+offset_right = -294.0
+offset_bottom = 440.0
+theme_override_font_sizes/font_size = 25
+placeholder_text = "Known Result"
+
+[node name="OptionButton" type="OptionButton" parent="Battery/Verification"]
+offset_left = 213.0
+offset_right = 291.0
+offset_bottom = 57.0
+selected = 0
+item_count = 2
+popup/item_0/text = "Ah"
+popup/item_0/id = 0
+popup/item_1/text = "C"
+popup/item_1/id = 1
 
 [node name="Kart Settings" type="Control" parent="."]
 layout_mode = 3
@@ -200,7 +229,7 @@ offset_top = 225.0
 offset_right = -598.0
 offset_bottom = 282.0
 theme_override_font_sizes/font_size = 25
-placeholder_text = "Torque"
+placeholder_text = "Acceleration"
 
 [node name="OptionButton" type="OptionButton" parent="Kart Settings/Acceleration"]
 layout_mode = 0
@@ -209,9 +238,9 @@ offset_right = 284.0
 offset_bottom = 57.0
 selected = 0
 item_count = 2
-popup/item_0/text = "N m"
+popup/item_0/text = "m/s^2"
 popup/item_0/id = 2
-popup/item_1/text = "lbf ft"
+popup/item_1/text = "ft/s^2"
 popup/item_1/id = 3
 
 [node name="Weight" type="LineEdit" parent="Kart Settings"]
@@ -309,24 +338,6 @@ theme_override_font_sizes/font_size = 25
 text = "Run Test
 "
 
-[node name="Scaling Calculator" type="Button" parent="Meta"]
-layout_mode = 0
-offset_left = -500.0
-offset_top = 302.0
-offset_right = -153.0
-offset_bottom = 388.0
-theme_override_font_sizes/font_size = 25
-text = "Scaling Constant
-Calculator"
-
-[node name="Profile" type="LineEdit" parent="Meta"]
-layout_mode = 0
-offset_left = -366.0
-offset_top = 493.0
-offset_right = -150.0
-offset_bottom = 536.0
-placeholder_text = "res://data/*.json"
-
 [node name="Output" type="TextEdit" parent="Meta"]
 layout_mode = 0
 offset_left = 238.0
@@ -346,7 +357,7 @@ offset_left = -208.0
 offset_top = 157.0
 offset_right = -168.0
 offset_bottom = 197.0
-tooltip_text = "The number of coulombs equivalent to a full charge of the battery. See Manual section 3.2 for determination procedure"
+tooltip_text = "Full charge capacity of the battery, measured in Ampere-Hours (Ah) or Coulombs (C)"
 theme_override_font_sizes/normal_font_size = 25
 text = "(?)"
 
@@ -356,7 +367,7 @@ offset_left = 151.0
 offset_top = 390.0
 offset_right = 191.0
 offset_bottom = 430.0
-tooltip_text = "Test"
+tooltip_text = "Friction coefficient between tires and ground (perpendicular to direction of vehicle movement)."
 theme_override_font_sizes/normal_font_size = 25
 text = "(?)"
 
@@ -366,7 +377,7 @@ offset_left = 151.0
 offset_top = 311.0
 offset_right = 191.0
 offset_bottom = 351.0
-tooltip_text = "Test"
+tooltip_text = "Total vehicle weight, including driver."
 theme_override_font_sizes/normal_font_size = 25
 text = "(?)"
 
@@ -376,7 +387,7 @@ offset_left = 151.0
 offset_top = 232.0
 offset_right = 191.0
 offset_bottom = 272.0
-tooltip_text = "Test"
+tooltip_text = "Maximum speed at which vehicle accelerates."
 theme_override_font_sizes/normal_font_size = 25
 text = "(?)"
 
@@ -386,7 +397,7 @@ offset_left = 151.0
 offset_top = 153.0
 offset_right = 191.0
 offset_bottom = 193.0
-tooltip_text = "Test"
+tooltip_text = "Maximum speed at which vehicle drives"
 theme_override_font_sizes/normal_font_size = 25
 text = "(?)"
 
@@ -396,12 +407,29 @@ offset_left = -209.0
 offset_top = 237.0
 offset_right = -169.0
 offset_bottom = 277.0
-tooltip_text = "Test"
+tooltip_text = "Experimentally determined scaling constant. If empty, will be set to 1. Use \"Known Result\" option to determine scaling constant."
 theme_override_font_sizes/normal_font_size = 25
 text = "(?)"
 
-[connection signal="text_changed" from="Battery/CC" to="." method="_on_cc_text_changed"]
+[node name="RichTextLabel7" type="RichTextLabel" parent="Hints"]
+offset_left = -209.0
+offset_top = 395.0
+offset_right = -169.0
+offset_bottom = 435.0
+tooltip_text = "The real-life charge consumed on the given map, determined experimentally. If this value exists but no scaling constant is entered, returns a scaling constant. if a scaling constant is also entered, returns an accuracy value. This value is NOT SAVED with the kart profile."
+theme_override_font_sizes/normal_font_size = 25
+text = "(?)"
+
+[node name="FileDialog" type="FileDialog" parent="."]
+title = "Select a File"
+initial_position = 1
+ok_button_text = "Open"
+file_mode = 0
+access = 2
+
+[connection signal="text_changed" from="Battery/Capacity" to="." method="_on_cc_text_changed"]
 [connection signal="text_changed" from="Battery/Scaling Const" to="." method="_on_scaling_const_text_changed"]
+[connection signal="text_changed" from="Battery/Verification" to="." method="_on_scaling_const_text_changed"]
 [connection signal="text_changed" from="Kart Settings/Max Speed" to="." method="_on_max_speed_text_changed"]
 [connection signal="text_changed" from="Kart Settings/Acceleration" to="." method="_on_acceleration_text_changed"]
 [connection signal="text_changed" from="Kart Settings/Weight" to="." method="_on_weight_text_changed"]
@@ -411,4 +439,4 @@ text = "(?)"
 [connection signal="pressed" from="Meta/New Map" to="." method="_on_new_map_pressed"]
 [connection signal="pressed" from="Meta/Edit Map" to="." method="_on_edit_map_pressed"]
 [connection signal="pressed" from="Meta/Run Test" to="." method="_on_run_pressed"]
-[connection signal="text_changed" from="Meta/Profile" to="." method="_on_profile_text_changed"]
+[connection signal="file_selected" from="FileDialog" to="." method="_on_file_dialog_file_selected"]

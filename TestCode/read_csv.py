@@ -17,7 +17,7 @@ fields = next(csvreader)
 for row in csvreader:
     rows.append(row)
 
-dt = 2 # each row is 2 secs apart
+dt = 0.2 # each row is 0.2 secs apart
 work = [0]
 times = []
 for i in range(len(rows)):
