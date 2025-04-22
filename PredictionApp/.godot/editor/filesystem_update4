@@ -4,3 +4,4 @@ res://Scripts/main.gd
 res://scripts/save_manager.gd
 res://Scenes/map_edit.tscn
 res://Scenes/path_node.tscn
+res://Scripts/map_edit.gd

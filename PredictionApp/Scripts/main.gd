@@ -7,6 +7,7 @@ var load_path = "res://data/default.json"
 
 # kart data
 @onready var Capacity = $Battery/Capacity
+@onready var Voltage = $Battery/Voltage
 @onready var Scaling = $"Battery/Scaling Const"
 @onready var Max_Speed = $"Kart Settings/Max Speed"
 @onready var Acceleration = $"Kart Settings/Acceleration"
@@ -16,12 +17,6 @@ var load_path = "res://data/default.json"
 @onready var Acceleration_Unit = $"Kart Settings/Acceleration/OptionButton"
 @onready var Weight_Unit = $"Kart Settings/Weight/OptionButton"
 @onready var Capacity_Unit = $"Battery/Capacity/OptionButton"
-
-# prediction cosntants
-var SOC: float
-var Q
-var I
-var t
 
 # map scene
 var map_scene: Map_Editor = preload("res://Scenes/map_edit.tscn").instantiate()
@@ -35,11 +30,6 @@ var map_load = "res://data/data.json"
 @onready var profile_text = $Labels/Kart
 @onready var path_text = $Labels/Map
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	SOC = float(Capacity.text)
-
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	if !map_loaded:
@@ -48,26 +38,163 @@ func _process(delta: float) -> void:
 	#	map_scene.main_ref = self
 		map_loaded = true
 
+# given three points, gives the radius of the circle defined by them
+func get_radius(x1, y1, x2, y2, x3, y3) -> int:
+	var s1 = x1**2 + y1**2
+	var s2 = x2**2 + y2**2
+	var s3 = x3**2 + y3**2
+	
+	var m11 = x1*(y2 - y3) + x2*(y3 - y1) + x3*(y1 - y2)
+
+	if m11 == 0:
+		return float('inf')
+
+	var m12 = s1*(y2 - y3) + s2*(y3 - y1) + s3*(y1 - y2)
+	var m13 = s1*(x2 - x3) + s2*(x3 - x1) + s3*(x1 - x2)
+
+	var x0 = 0.5 * m12 / m11
+	var y0 = -0.5 * m13 / m11
+	
+	var radius = sqrt((x1 - x0)**2 + (y1 - y0)**2)
+	return radius
 
 func _on_run_pressed() -> void:
-	var C = 1.099 # C battery capacity
-	var I_avg = 26.1 # A
-	var V_avg = 11.93 # V
-	Q = 3.19 # aH
-	SOC = float(Capacity.text)
-	for point in Global.points:
-		#print(SOC)
-		if (point.x == 0):
-			t = 0
+	## All conversions are exact
+	
+	var Q = Capacity.text.to_float()
+	match Capacity_Unit.get_selected_id():
+		0: # C is in ampere-hours, convert to coulombs
+			Q *= 3600
+		1: # coulombs, do nothing
+			pass
+	var V = Voltage.text.to_float()
+	var scale = Scaling.text.to_float()
+	
+	var max_v = Max_Speed.text.to_float()
+	match Max_Speed_Unit.get_selected_id():
+		0: # velocity is in m/s, no conversion
+			pass
+		1: # kph
+			max_v = (max_v*1000)/3600
+		2: # ft/s
+			max_v *= 0.3048
+		3: # mph
+			max_v = (max_v*(1/5280)*3600)*0.3048
+	var max_a = Acceleration.text.to_float()
+	match Acceleration_Unit.get_selected_id():
+		0: # velocity is in m/s^2, no conversion
+			pass
+		1: # ft/s^2
+			max_a *= 0.3048
+	var friction_coeff = Friction.text.to_float()
+	var cart_weight = Weight.text.to_float()
+	match Weight_Unit.get_selected_id():
+		0: # velocity is in kg, no change
+			pass
+		1: # grams
+			cart_weight /= 1000
+		2: # lbs
+			cart_weight *= 0.45359237
+			
+	# get path data
+	var pointList = Global.points
+	
+	## Setup Vars
+	var radii = []
+	var max_vs = []
+	var ideal_vs = []
+	var forces = []
+	var work = []
+	var power = []
+	var times = []
+	var charge = []
+	var g = 9.8
+	var drag_coeff = 0 # depricated, but maintained in case we want to reimplement
+			
+	## CALCULATE IDEAL VELOCITIES
+	
+	for i in range(len(pointList)):
+		var x1 = []
+		var x2 = pointList[i]
+		var x3 = []
+		if i == 0:
+			x1 = pointList[-1]
+			x3 = pointList[i+1]
+		if i > 0 and i < len(pointList)-1:
+			x1 = pointList[i-1]
+			x3 = pointList[i+1]
 		else:
-			t = float(Max_Speed.text)/sqrt(pow(point.x,2) + pow(point.y,2)) # delta time
-		print("time:"+str(t))
-		print(-t/(C*(V_avg/I_avg)))
-		I = float(7*pow(exp(1),float(-t/(C*(V_avg/I_avg)))))
-		SOC = SOC + (1/Q)*(-I) # coulomb count change
-		$Meta/Output.text = str((float(Capacity.text)-SOC)) + "%"
-		break
-	pass
+			x1 = pointList[i-1]
+			x3 = pointList[0]
+			
+		radii.append(get_radius(x1[0],x1[1],x2[0],x2[1],x3[0],x3[1]))
+
+	# calculate max speeds by friction
+	for each in radii:
+		max_vs.append(sqrt(friction_coeff*g*each))
+
+	# calculate max speeds with kart characteristics
+	ideal_vs = max_vs
+	for i in range(len(ideal_vs)):
+		# starting point always velocity of 0
+		if i == 0:
+			ideal_vs[i] = 0
+			continue
+
+		# get adjacent points
+		var v1 = ideal_vs[i-1]
+		var x1 = pointList[i-1]
+		var v2 = ideal_vs[i]
+		var x2 = pointList[i]
+		
+		# check against max speed
+		if v2 > max_v:
+			ideal_vs[i] = max_v
+
+		# check against max acceleration
+		var dx = sqrt((x1[0]-x2[0])**2+(x1[1]-x2[1])**2)
+		
+		if (v1*(v2-v1)/dx+((v2-v1)**2)/dx) > max_a:
+			var t = (-v1+sqrt(v1**2+4*max_a*dx))/(2*max_a)
+			ideal_vs[i] = v1+max_a*t
+			times.append(t)
+		else:
+			var a = (v1*(v2-v1)/dx+((v2-v1)**2)/dx)
+			var t = (-v1+sqrt(v1**2+4*a*dx))/(2*a)
+			times.append(t)
+			
+	## CALCULATE ENERGY CONSUMPTION
+	# calculate force on kart at each point
+	for i in range(len(ideal_vs)):
+		# assuming point spacing is sufficiently close so that acceleraton estimation can be over small time scale
+		forces.append(drag_coeff*ideal_vs[i]**2+(ideal_vs[i] < max_v)*cart_weight*max_a)
+
+	# calculate work done at each point since last point (left-sum)
+	var totalDist = [0]
+	var totalWork = [0]
+	for i in range(len(forces)):
+		var w = 0
+		if i != 0:
+			var x1 = pointList[i-1]
+			var x2 = pointList[i]
+			var dx = sqrt((x1[0]-x2[0])**2+(x1[1]-x2[1])**2)
+			totalDist.append(totalDist[i-1]+dx)
+			w = forces[i]*dx
+			totalWork.append(totalWork[i-1]+w)
+
+		work.append(w)
+		
+	# P = W/t
+	# I = P/V
+	# Q = It
+	# Q = W/V
+	var total = 0
+	for i in range(len(work)):
+		var dQ = work[i]/V
+		charge.append(dQ)
+		total += dQ
+		
+	print(str(total)+" Coulombs, "+str(total/3600)+" Ampere-Hours")
 
 ######################################
 #### FUNCTIONS TO OPEN MAP EDITOR ####
@@ -130,6 +257,8 @@ func _on_file_dialog_file_selected(path: String) -> void:
 		
 		Scaling.text = str(save_data.scaling.value)
 		
+		Voltage.text = str(save_data.voltage.value)
+		
 		# set file name in UI
 		profile_text.text = "Profile: "+path.split("/")[-1]
 		
@@ -141,6 +270,7 @@ func _on_file_dialog_file_selected(path: String) -> void:
 		load_data["friction"] = {"value": Friction.text.to_float()}
 		load_data["max_speed"] = {"value": Max_Speed.text.to_float(), "unit": Max_Speed_Unit.get_selected_id()}
 		load_data["scaling"] = {"value": Acceleration.text.to_float()}
+		load_data["voltage"] = {"value": Voltage.text.to_float()}
 		
 		# save file
 		SaveManager.save_profile(path, load_data)

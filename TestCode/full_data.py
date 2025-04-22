@@ -9,6 +9,7 @@ max_a = max_v/3 # acceleration (m/s^2)
 friction_coeff = 0.7 # friction between tires and ground (guess from google)
 cart_weight = 2 # (kg)
 drag_coeff = 0#1/80 # coefficient of drag moving forwards, basically jsut a scaling constant
+battery_voltage = 12
 
 # path data
 pointList = [[0,0],[61,0],[63,1],[64,3],[63,5],[61,6],[0,6],[-2,5],[-3,3],[-2,1]]
@@ -26,6 +27,7 @@ ideal_vs = []
 forces = []
 work = []
 power = []
+times = []
 g = 9.8
 
 
@@ -119,6 +121,11 @@ for i in range(len(ideal_vs)):
     if (v1*(v2-v1)/dx+((v2-v1)**2)/dx) > max_a:
         t = (-v1+math.sqrt(v1**2+4*max_a*dx))/(2*max_a)
         ideal_vs[i] = v1+max_a*t
+        times.append(t)
+    else:
+        a = (v1*(v2-v1)/dx+((v2-v1)**2)/dx)
+        t = (-v1+math.sqrt(v1**2+4*a*dx))/(2*a)
+        times.append(t)
 
 # calculate force on kart at each point
 for i in range(len(ideal_vs)):
@@ -140,6 +147,13 @@ for i in range(len(forces)):
 
     work.append(w)
 
+total = 0
+for i in range(len(work)):
+    dQ = work[i]/battery_voltage
+    total += dQ
+
+print(total)
+print(sum(times))
 
 ### READ CSV DATA
 f = open("test.csv","r")

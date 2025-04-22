@@ -117,6 +117,7 @@ offset_left = 123.0
 offset_top = 12.0
 offset_right = 286.0
 offset_bottom = 66.0
+step = 0.0
 value = 1.0
 allow_greater = true
 alignment = 1
@@ -136,9 +137,14 @@ position = Vector2(452, 536)
 [node name="Path Node2" parent="." instance=ExtResource("3_l0088")]
 position = Vector2(287, 536)
 
+[node name="FileDialog" type="FileDialog" parent="."]
+initial_position = 1
+access = 2
+
 [connection signal="mouse_entered" from="Draw_Zone" to="." method="_on_ui_zone_1_mouse_entered"]
 [connection signal="mouse_exited" from="Draw_Zone" to="." method="_on_ui_zone_1_mouse_exited"]
 [connection signal="pressed" from="Menu Bar/Save" to="." method="_on_save_pressed"]
 [connection signal="pressed" from="Menu Bar/Back" to="." method="_on_back_pressed"]
 [connection signal="pressed" from="Menu Bar/Load Map" to="." method="_on_load_map_pressed"]
 [connection signal="pressed" from="Scale/Reverse" to="." method="_on_reverse_pressed"]
+[connection signal="file_selected" from="FileDialog" to="." method="_on_file_dialog_file_selected"]

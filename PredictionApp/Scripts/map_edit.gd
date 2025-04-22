@@ -36,6 +36,9 @@ var drawable = true
 # reference to main scene
 var main_ref: Main
 
+# File dialogue for save/oad
+@onready var file_popup = $FileDialog
+
 func _ready() -> void:
 	ruler_anchors = [ruler[0].position, ruler[1].position]
 	
@@ -190,17 +193,33 @@ func export_path() -> Array[Vector2]:
 		# coords in screen space have 0,0 at top left, for sake of intuition we flip the y axis
 		var p_mirrored = Vector2(p_translated.x, -p_translated.y)
 		var scale_factor = int(scale_value.get_line_edit().text)
-		if scale_units.get_item_text(scale_units.selected) == "ft":
-			scale_factor /= 3.28084 # feet to meters conversion, 99.9999968% accuracy
+		if scale_units.get_selected_id() == 1:
+			scale_factor *= 0.3048 # feet to meters conversion
 		var p_scaled = (p_mirrored/ruler[0].position.distance_to(ruler[1].position))*scale_factor
 		path_data.append(p_scaled)
 	
 	return path_data
 
+# converts vector2 arrays to proper format to saving as json
+func format_list(list: Array[Vector2]) -> Array[Array]:
+	var new_list: Array[Array] = []
+	for each in list:
+		new_list.append([each.x, each.y])
+	return new_list
+	
+# Undoes above function
+func restore_list(list: Array) -> Array[Vector2]:
+	var new_list: Array[Vector2] = []
+	for each in list:
+		new_list.append(Vector2(each[0], each[1]))
+	return new_list
 
 func _on_save_pressed() -> void:
-	SaveManager.savepath(points)
-	#print(export_path())
+	file_popup.set_file_mode(FileDialog.FILE_MODE_SAVE_FILE) # select single file setting
+	file_popup.clear_filters()
+	file_popup.add_filter("*.json") # only look for json files
+	file_popup.title = "Select a Location"
+	file_popup.popup_centered_ratio()
 
 # reverse list
 func _on_reverse_pressed() -> void:
@@ -238,15 +257,59 @@ func reset() -> void:
 
 
 func _on_load_map_pressed() -> void:
-	#print(points)
-	#print(SaveManager.readpath())
-	reset()
-	points = SaveManager.readpath()
-	var data: Array[Node2D] = []
-	icons.clear()
-	for each in points:
-		var newNode: Node2D = path_node.instantiate()
-		newNode.global_position = Vector2(each[0],each[1])
-		add_child(newNode)
-		icons.append(newNode)
-	print(icons)
+	file_popup.set_file_mode(FileDialog.FILE_MODE_OPEN_FILE) # select single file setting
+	file_popup.clear_filters()
+	file_popup.add_filter("*.json") # only look for json files
+	file_popup.title = "Select a File"
+	file_popup.popup_centered_ratio()
+	
+
+func _on_file_dialog_file_selected(path: String) -> void:
+	if file_popup.get_file_mode() == FileDialog.FILE_MODE_OPEN_FILE:
+		# reset current data
+		reset()
+		
+		# load data from file
+		var data = SaveManager.read_path(path)
+	
+		# read config values
+		scale_value.get_line_edit().text = data.scale.value
+		scale_units.select(data.scale.unit)
+		ruler[0].position = Vector2(data.ruler[0][0],data.ruler[0][1])
+		ruler[1].position = Vector2(data.ruler[1][0],data.ruler[1][1])
+		
+		# calculate reverse scaling factor
+		var scale_factor = int(scale_value.get_line_edit().text)
+		if scale_units.get_selected_id() == 1:
+			scale_factor *= 0.3048 # feet to meters conversion
+		scale_factor = ruler[0].position.distance_to(ruler[1].position)/scale_factor
+		
+		# repopulate lists
+		for each in data.raw:
+			var point = Vector2(each[0], each[1])
+			var newNode: Node2D = path_node.instantiate()
+			newNode.global_position = point
+			add_child(newNode)
+			icons.append(newNode)
+			points.append(point)
+			
+		# set calculation data
+		Global.points = restore_list(data.formatted)
+	
+	else:
+		var export_data = {}
+		# define config dict
+		export_data["scale"] = {
+			"value": scale_value.get_line_edit().text, 
+			"unit": scale_units.get_selected_id()
+		}
+			
+		export_data["ruler"] = [
+			[ruler[0].position.x,ruler[0].position.y], 
+			[ruler[1].position.x,ruler[1].position.y]
+		]
+		export_data["raw"] = format_list(points)
+		export_data["formatted"] = format_list(export_path())
+		
+		# pass to save manager to write to file
+		SaveManager.save_path(path, export_data)
