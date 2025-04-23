@@ -2,7 +2,7 @@ import csv
 import math
 import matplotlib.pyplot as plt
 
-f = open("test.csv","r")
+f = open("parkinglotpath.csv","r")
 
 fields = []
 rows = []
@@ -22,7 +22,7 @@ work = [0]
 times = []
 for i in range(len(rows)):
     if i > 0:
-        work.append(work[i-1]+int(rows[i][1])/dt)
+        work.append(work[i-1]+float(rows[i][1])/dt)
     times.append(i*2)
 
 plt.plot(times, work)

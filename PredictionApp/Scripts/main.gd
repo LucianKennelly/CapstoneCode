@@ -44,7 +44,7 @@ func _process(delta: float) -> void:
 		map_loaded = true
 
 # given three points, gives the radius of the circle defined by them
-func get_radius(x1, y1, x2, y2, x3, y3) -> int:
+func get_radius(x1, y1, x2, y2, x3, y3) -> float:
 	var s1 = x1**2 + y1**2
 	var s2 = x2**2 + y2**2
 	var s3 = x3**2 + y3**2
@@ -52,7 +52,7 @@ func get_radius(x1, y1, x2, y2, x3, y3) -> int:
 	var m11 = x1*(y2 - y3) + x2*(y3 - y1) + x3*(y1 - y2)
 
 	if m11 == 0:
-		return float('inf')
+		return 10000 # 10k meters is fine for a maximum
 
 	var m12 = s1*(y2 - y3) + s2*(y3 - y1) + s3*(y1 - y2)
 	var m13 = s1*(x2 - x3) + s2*(x3 - x1) + s3*(x1 - x2)
@@ -114,7 +114,7 @@ func _on_run_pressed() -> void:
 			pass
 			
 	# get path data
-	var pointList = Global.points
+	var pointList: Array = Global.points.duplicate()
 	
 	## Setup Vars
 	var radii = []
@@ -127,6 +127,42 @@ func _on_run_pressed() -> void:
 	var charge = []
 	var g = 9.8
 	var drag_coeff = 0 # depricated, but maintained in case we want to reimplement
+	
+	## FORMAT PATH
+	# format path to not have points too far away and to account for laps by repeating path
+	var max_segment_space = 1 # maximum 1 meter segment space (this seems to work nicely)
+	var n = 0
+	while true:
+		var x1 = pointList[n-1]
+		var x2 = pointList[n]
+		var dx = sqrt((x1[0]-x2[0])**2+(x1[1]-x2[1])**2)
+		if dx > max_segment_space:
+			var dvs = ceil(dx/max_segment_space)-1
+			for j in range(dvs):
+				var x3 = Vector2(x1[0]+((x2[0]-x1[0])/dvs)*(j+1),x1[1]+((x2[1]-x1[1])/dvs)*(j+1))
+				pointList.insert(n+j, x3)
+			n += dvs
+
+		n += 1
+		if n == len(pointList):
+			break
+
+	print(len(pointList))
+	# clear up duplicate points which sometimes appear
+	var removed = 0
+	n = 0
+	while true:
+		if pointList[n-1] == pointList[n]:
+			#print(str(pointList[n])+" "+str(pointList[n-1]))
+			pointList.remove_at(n)
+			n -= 1
+			removed += 1
+		n += 1
+		if n == len(pointList):
+			break
+			
+	print(removed)
+	print(len(pointList))
 			
 	## CALCULATE IDEAL VELOCITIES
 	
@@ -149,7 +185,7 @@ func _on_run_pressed() -> void:
 	# calculate max speeds by friction
 	for each in radii:
 		max_vs.append(sqrt(friction_coeff*g*each))
-
+		
 	# calculate max speeds with kart characteristics
 	ideal_vs = max_vs
 	for i in range(len(ideal_vs)):
@@ -183,7 +219,6 @@ func _on_run_pressed() -> void:
 			else:
 				t = dx/v1
 			times.append(t)
-			
 			
 	## CALCULATE ENERGY CONSUMPTION
 	# calculate force on kart at each point
@@ -220,7 +255,6 @@ func _on_run_pressed() -> void:
 	if scale != 0:
 		total *= scale
 	var t = (times.reduce(func(accum, number): return accum + number, 0))
-	print(t)
 	var results = "Charge Consumed: "+str(snapped(total/3.6, 0.01))+" mAh\nCharge remaining: "+str(100*snapped((Q-total)/Q, 0.0001))+"%\nExpected Lifetime: "+str(snapped((Q/total)*t/60.0, 0.01))+" min\nExpected Range: "+str(snapped(Q/total, 0.01))+" laps"
 	
 	# add optional results
