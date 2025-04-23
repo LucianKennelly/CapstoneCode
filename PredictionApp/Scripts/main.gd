@@ -78,7 +78,6 @@ func _on_run_pressed() -> void:
 	var scale = Scaling.text.to_float()
 	
 	var max_v = Max_Speed.text.to_float()
-	print(max_v)
 	match Max_Speed_Unit.get_selected_id():
 		0: # velocity is in m/s, no conversion
 			pass
@@ -87,8 +86,8 @@ func _on_run_pressed() -> void:
 		2: # ft/s
 			max_v *= 0.3048
 		3: # mph
-			max_v = (max_v*(1.0/5280.0)*3600.0)*0.3048
-	print(max_v)
+			max_v = (max_v*5280.0/3600.0)*0.3048
+
 	var max_a = Acceleration.text.to_float()
 	match Acceleration_Unit.get_selected_id():
 		0: # velocity is in m/s^2, no conversion
@@ -113,15 +112,6 @@ func _on_run_pressed() -> void:
 			known *= 3600.0
 		2: # Coulombs
 			pass
-			
-	print(Q)
-	print(V)
-	print(scale)
-	print(max_v)
-	print(max_a)
-	print(friction_coeff)
-	print(cart_weight)
-	print(known)
 			
 	# get path data
 	var pointList = Global.points
@@ -187,8 +177,13 @@ func _on_run_pressed() -> void:
 			times.append(t)
 		else:
 			var a = (v1*(v2-v1)/dx+((v2-v1)**2)/dx)
-			var t = (-v1+sqrt(v1**2+4*a*dx))/(2*a)
+			var t
+			if a != 0:
+				t = (-v1+sqrt(v1**2+4*a*dx))/(2*a)
+			else:
+				t = dx/v1
 			times.append(t)
+			
 			
 	## CALCULATE ENERGY CONSUMPTION
 	# calculate force on kart at each point
@@ -225,7 +220,8 @@ func _on_run_pressed() -> void:
 	if scale != 0:
 		total *= scale
 	var t = (times.reduce(func(accum, number): return accum + number, 0))
-	var results = "Charge Consumed: "+str(snapped(total/3.6, 0.01))+" mAh\nCharge remaining: "+str(100*snapped((Q-total)/Q, 0.0001))+"%\nExpected Lifetime: "+str(snapped((Q/total)*t/60, 0.01))+" min\nExpected Range: "+str(snapped(Q/total, 0.01))+" laps"
+	print(t)
+	var results = "Charge Consumed: "+str(snapped(total/3.6, 0.01))+" mAh\nCharge remaining: "+str(100*snapped((Q-total)/Q, 0.0001))+"%\nExpected Lifetime: "+str(snapped((Q/total)*t/60.0, 0.01))+" min\nExpected Range: "+str(snapped(Q/total, 0.01))+" laps"
 	
 	# add optional results
 	if known != 0:
