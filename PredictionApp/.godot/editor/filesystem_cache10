@@ -1,31 +1,22 @@
 0453c2224f3a23d633b93278348c95c7
-::res://::1745271768
+::res://::1745433036
 Global.gd::GDScript/GDScript::6171467094852526645::1744830893::0::1::::<>Node<><>0<>0<><>::
+testmap.json::JSON::-1::1745428424::0::1::::<><><>0<>0<><>::
+testprofile.json::JSON::-1::1745429211::0::1::::<><><>0<>0<><>::
 ::res://Addons/::1741918400
 ::res://Addons/csv-data-importer/::1741919356
 csv_data.gd::GDScript/GDScript::138631064587369901::1741918400::0::1::::<>Resource<><>0<>0<><>::
 import_plugin.gd::GDScript/GDScript::1183759295409428251::1741918400::0::1::::<>EditorImportPlugin<><>0<>1<><>::
 plugin.cfg::TextFile/TextFile::-1::1741918400::0::1::::<><><>0<>0<><>::
 plugin.gd::GDScript/GDScript::4433048862086535697::1741918400::0::1::::<>EditorPlugin<><>0<>1<><>::
-::res://Assets/::1743145061
+::res://Assets/::1745364214
 empty_map.png::CompressedTexture2D/CompressedTexture2D::932835948016437651::1742229872::1742229878::1::::<><><>0<>0<>bb695b4ebe3e008dc9f429a2b13d9152<>res://.godot/imported/empty_map.png-62662123a35901ee17305b797adcc92e.ctex::
 example_track.jpg::CompressedTexture2D/CompressedTexture2D::6279656381937841233::1743145056::1743145061::1::::<><><>0<>0<>4cffa40184e877029dc129e844a88fdd<>res://.godot/imported/example_track.jpg-c2ddd8fe17d7f5c4ef7dc5653c0bf9df.ctex::
 icon.svg::CompressedTexture2D/CompressedTexture2D::6939225154458289814::1741626449::1742229853::1::::<><><>0<>0<>728a06e3e485cd20b899da2ee2d33f21<>res://.godot/imported/icon.svg-8193eb3d66a1b5143b8bb4c28c1dc139.ctex::
 Mario_mario_kart_8_deluxe.png::CompressedTexture2D/CompressedTexture2D::787608911308637049::1741634902::1742229854::1::::<><><>0<>0<>34c9c267f92bb3d4614aa5800ffbf2e8<>res://.godot/imported/Mario_mario_kart_8_deluxe.png-158682742d5f2c95504233c57dd135f6.ctex::
-UP_Logo.png::CompressedTexture2D/CompressedTexture2D::3260541623979275610::1741636973::1742229853::1::::<><><>0<>0<>99fddd7d89878ce73beebad343525b06<>res://.godot/imported/UP_Logo.png-cff936ebfdae54318f4d507a906a7c79.ctex::
+UP_Logo.png::CompressedTexture2D/CompressedTexture2D::1355360299988742833::1745364080::1745364214::1::::<><><>0<>0<>7c6331834e82a263d7bdea586eab0111<>res://.godot/imported/UP_Logo.png-cff936ebfdae54318f4d507a906a7c79.ctex::
 wallymk.png::CompressedTexture2D/CompressedTexture2D::4023171870135629639::1741917411::1742229854::1::::<><><>0<>0<>c83ac54449f61d5c90d0f6d44d8a3b2e<>res://.godot/imported/wallymk.png-ec74dc8068c490175b967553a9469167.ctex::
-::res://Data/::1744830953
-default_profile.json::JSON/JSON::-1::1744830893::0::1::::<><><>0<>0<><>::
-testNov8. current (A).translation::Translation/Translation::8882609052375219859::1741918400::0::1::::<><><>0<>0<><>::
-testNov8. resistance (Ohms) (est.).translation::Translation/Translation::6827685974830119727::1741918400::0::1::::<><><>0<>0<><>::
-testNov8. velocity (mph) (est.).translation::Translation/Translation::7916989474494873640::1741918400::0::1::::<><><>0<>0<><>::
-testNov8. voltage (V).translation::Translation/Translation::5657404133890246289::1741918400::0::1::::<><><>0<>0<><>::
-testNov8.csv::Resource/Resource::6698500327064516488::1741918400::1744830953::1::::<><><>0<>0<>fb2309eb31d6acecfa9fc403a5626f2c<>res://.godot/imported/testNov8.csv-ce305af1a7f1d5c89c83731967bb711a.res::uid://b8fh610ovic8::::res://addons/csv-data-importer/csv_data.gd
-testNov8_positionData. Elevation (m).translation::OptimizedTranslation/OptimizedTranslation::4628225633311287472::1741919186::0::1::::<><><>0<>0<><>::
-testNov8_positionData. Lat.translation::OptimizedTranslation/OptimizedTranslation::4405796657456804007::1741919186::0::1::::<><><>0<>0<><>::
-testNov8_positionData. Lon.translation::OptimizedTranslation/OptimizedTranslation::3961042138276031237::1741919186::0::1::::<><><>0<>0<><>::
-testNov8_positionData. Time.translation::OptimizedTranslation/OptimizedTranslation::6576788557182197916::1741919186::0::1::::<><><>0<>0<><>::
-testNov8_positionData.csv::Resource/Resource::3982870483290539015::1741918400::1744830953::1::::<><><>0<>0<>555f6b51992107fe40017ca40a76c73e<>res://.godot/imported/testNov8_positionData.csv-233ce934062f8bea5202d60e74f0bce9.res::uid://b8fh610ovic8::::res://addons/csv-data-importer/csv_data.gd
+::res://Data/::1745278455
 ::res://Fonts/::1741919186
 TheSans-2_ExtraLightItalic_TRIAL.otf::FontFile/FontFile::5039191459965771685::1621031118::1741919186::1::::<><><>0<>0<>31301e3584b399afa46df94f0103aaa4<>res://.godot/imported/TheSans-2_ExtraLightItalic_TRIAL.otf-c7d1276ee0a868f53354d78c5a316357.fontdata::
 TheSans-2_ExtraLight_TRIAL.otf::FontFile/FontFile::3335722376631863463::1621031118::1741919186::1::::<><><>0<>0<>8ac3915aeec45c46de5ea17968ee661b<>res://.godot/imported/TheSans-2_ExtraLight_TRIAL.otf-3a1f37082efdb8866cb4a6442380e8ed.fontdata::
@@ -92,18 +83,17 @@ TheSansSCd-8_ExtraBold_TRIAL.otf::FontFile/FontFile::498432257218801260::1625158
 TheSansSCd-9_BlackItalic_TRIAL.otf::FontFile/FontFile::2700174689631581636::1625158832::1741919186::1::::<><><>0<>0<>0eafc832db53f3386eb0f209d409bb2c<>res://.godot/imported/TheSansSCd-9_BlackItalic_TRIAL.otf-51f9e8cf37d5635ef299508542272cf9.fontdata::
 TheSansSCd-9_Black_TRIAL.otf::FontFile/FontFile::530249337960153109::1625158830::1741919186::1::::<><><>0<>0<>ecd0895b03c8dc509ebad186b8ee54db<>res://.godot/imported/TheSansSCd-9_Black_TRIAL.otf-2452cf128c2cfec44eb782c199a1d318.fontdata::
 TheThinnest_TRIAL.otf::FontFile/FontFile::1518935808958550052::1569529912::1741919186::1::::<><><>0<>0<>08a78040a597a03cbec32e566ca1df0d<>res://.godot/imported/TheThinnest_TRIAL.otf-d6bd83ed60606fbe36373a40d6002806.fontdata::
-::res://Scenes/::1744836685
-control.tscn::PackedScene/PackedScene::4292092334675906828::1744329674::0::1::::<><><>0<>0<><>::uid://dxj7vj3ssyhog::::res://Fonts/TheSans-5_Plain_TRIAL.otf<>uid://buj6t2xc6v634::::res://scripts/main.gd<>uid://bmpov5wxmw81s::::res://Assets/UP_Logo.png<>uid://lhr2lcs1jdjt::::res://Assets/Mario_mario_kart_8_deluxe.png
-main.tscn::PackedScene::4316669109614081495::1744836685::0::1::::<><><>0<>0<><>::uid://cencj0im115lh::::res://Themes/UP_Theme.tres<>uid://buj6t2xc6v634::::res://Scripts/main.gd<>uid://bmpov5wxmw81s::::res://Assets/UP_Logo.png<>uid://lhr2lcs1jdjt::::res://Assets/Mario_mario_kart_8_deluxe.png<>uid://nj4w3to3s5ch::::res://Assets/empty_map.png
-map_edit.tscn::PackedScene::8846228726127109393::1744836685::0::1::::<><><>0<>0<><>::uid://cencj0im115lh::::res://Themes/UP_Theme.tres<>uid://cek853e157lu3::::res://Scripts/map_edit.gd<>uid://qnvr0y8k5vqa::::res://Scenes/path_node.tscn
-path_node.tscn::PackedScene::1151165176028770084::1744836685::0::1::::<><><>0<>0<><>::
-::res://Scripts/::1744830973
+::res://Scenes/::1745429651
+main.tscn::PackedScene::4316669109614081495::1745429651::0::1::::<><><>0<>0<><>::uid://cencj0im115lh::::res://Themes/UP_Theme.tres<>uid://buj6t2xc6v634::::res://Scripts/main.gd<>uid://tkst6s4rv6gr::::res://Assets/UP_Logo.png<>uid://bllh2efm5u2v0::::res://Fonts/TheSans-7_Bold_TRIAL.otf<>uid://nj4w3to3s5ch::::res://Assets/empty_map.png
+map_edit.tscn::PackedScene::8846228726127109393::1745429651::0::1::::<><><>0<>0<><>::uid://cencj0im115lh::::res://Themes/UP_Theme.tres<>uid://cek853e157lu3::::res://Scripts/map_edit.gd<>uid://qnvr0y8k5vqa::::res://Scenes/path_node.tscn
+path_node.tscn::PackedScene::1151165176028770084::1745429651::0::1::::<><><>0<>0<><>::
+::res://Scripts/::1745429650
 close_button.gd::GDScript/GDScript::4835667399724830581::1742228942::0::1::::<>Button<><>0<>0<><>::
 default.json::JSON/JSON::-1::1744830893::0::1::::<><><>0<>0<><>::
 load_3.gd::GDScript/GDScript::863195978444583123::1742228942::0::1::::<>Button<><>0<>0<><>::
-main.gd::GDScript/GDScript::3810694566894355049::1744830893::0::1::::Main<>Node<><>0<>0<><>::
-map_edit.gd::GDScript/GDScript::5076299232113073552::1744830973::0::1::::Map_Editor<>Control<><>0<>0<><>::
+main.gd::GDScript::3810694566894355049::1745429650::0::1::::Main<>Node<><>0<>0<><>::
+map_edit.gd::GDScript::5076299232113073552::1745425583::0::1::::Map_Editor<>Control<><>0<>0<><>::
 runtestbutton.gd::GDScript/GDScript::2222559743638328091::1742228942::0::1::::<>Node<><>0<>0<><>::
-save_manager.gd::GDScript/GDScript::1200124949491350901::1744830893::0::1::::<>Node<><>0<>0<><>::
-::res://Themes/::1744836685
-UP_Theme.tres::Theme::5080572484895001445::1744836685::0::1::::<><><>0<>0<><>::uid://dxj7vj3ssyhog::::res://Fonts/TheSans-5_Plain_TRIAL.otf
+save_manager.gd::GDScript/GDScript::1200124949491350901::1745284071::0::1::::<>Node<><>0<>0<><>::
+::res://Themes/::1745425134
+UP_Theme.tres::Theme::5080572484895001445::1745425134::0::1::::<><><>0<>0<><>::uid://dxj7vj3ssyhog::::res://Fonts/TheSans-5_Plain_TRIAL.otf

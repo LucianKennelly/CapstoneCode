@@ -22,22 +22,34 @@ var is_ruler = false
 
 # offset of selected node from mouse
 var drag_offset = Vector2.ZERO
-
 var drawable = true
 
-# ui buttons
+# whether or not this scene is in focus
+# Godot does not have private variables, _ prefix
+# denotes variables which should be treated as private
+var _is_preview = true
+
+# ui things
 @onready var scale_units := $Scale/OptionButton
 @onready var scale_value := $Scale/SpinBox
+@onready var img_scale := $"Utils/Resize Slider"
+@onready var ui_containers = [$"Menu Bar", $Scale, $Utils]
 
 # scaling points
 @onready var ruler = [$"Path Node", $"Path Node2"]
 @onready var ruler_anchors
 
-# reference to main scene
+# Main scene reference ant utils
 var main_ref: Main
 
 # File dialogue for save/oad
-@onready var file_popup = $FileDialog
+@onready var file_popup := $FileDialog
+enum FileType {LOAD_IMAGE, LOAD_PATH, SAVE_PATH}
+var file_type : FileType
+
+# background image
+@onready var reference := $Reference
+@onready var reference_scale := $"Utils/Resize Slider"
 
 func _ready() -> void:
 	ruler_anchors = [ruler[0].position, ruler[1].position]
@@ -53,7 +65,7 @@ func _process(delta: float) -> void:
 		
 	# draw lines along path
 	queue_redraw()
-	#print(icons)
+	
 func _draw():
 	# draw measurement stick
 	if ruler[0] && ruler[1]:
@@ -82,7 +94,7 @@ func _draw():
 		draw_line(pos2-v, pos2-v-v.rotated(-PI/8), color, 1.0)
 
 func _input(event):
-	if !self.visible:
+	if _is_preview:
 		return
 	# Mouse in viewport coordinates.
 	if event is InputEventMouseButton && drawable:
@@ -100,14 +112,12 @@ func _input(event):
 		selected_index = -1
 		is_ruler = false
 		for i in range(len(points)):
-			print(points[i].distance_to(mouse_pos))
 			if points[i].distance_to(mouse_pos) <= dead_range:
 				selected_index = i
 				drag_offset = icons[i].position-mouse_pos
 				break
 				
 		for i in range(len(ruler)):
-			print(ruler[i].position.distance_to(mouse_pos))
 			if ruler[i].position.distance_to(mouse_pos) <= dead_range:
 				selected_index = i
 				drag_offset = ruler[i].position-mouse_pos
@@ -153,7 +163,7 @@ func _input(event):
 				var dist = p1.distance_to(p2)
 				if p1.distance_to(mouse_pos) < dist && p2.distance_to(mouse_pos) < dist:
 					var perp_dist =  p1.distance_to(mouse_pos)*sin((p2-p1).angle_to(mouse_pos-p1))
-					if perp_dist < dead_range:
+					if abs(perp_dist) < dead_range:
 						insert_at = i+1
 					
 			# 1 = left, 2 = right, 3 = middle
@@ -174,12 +184,74 @@ func _input(event):
 				# allow dragging most recent point
 				selected_index = insert_at
 
+######################################
+### HELPER/SCENE CHANGE FUNCTIONS ####
+######################################
+
 # check whether mouse in draw area (i.e. not over UI)
 func _on_ui_zone_1_mouse_entered() -> void:
 	drawable = true
 
 func _on_ui_zone_1_mouse_exited() -> void:
 	drawable = false
+	
+# return to main scene
+func _on_back_pressed() -> void:
+	Global.points = export_path()
+	#get_tree().change_scene_to_file("res://Scenes/main.tscn")
+	main_ref.return_to_focus()
+	set_preview(true)
+	
+# reverse list
+func _on_reverse_pressed() -> void:
+	points.reverse()
+	points.insert(0, points.back())
+	points.pop_back()
+	
+	icons.reverse()
+	icons.insert(0, icons.back())
+	icons.pop_back()
+
+# reset path
+func reset() -> void:
+	# reset list of points
+	points.clear()
+	
+	# delete all icon objects then delete list
+	for each in icons:
+		each.queue_free()
+	icons.clear()
+	
+	# reset ruler position
+	ruler[0].position = ruler_anchors[0]
+	ruler[1].position = ruler_anchors[1]
+
+	# reset scale
+	scale_value.get_line_edit().text = "1"
+	scale_units.selected = 0
+	
+	# reset reference image
+	reference.texture = null
+	
+# remove UI if we are using the scene to render a preview of the map
+# not fully implemented, currently just render background image on main screen
+func set_preview(val: bool) -> void:
+	_is_preview = val
+	if _is_preview:
+		self.visible = false # remove when implementing fully
+		for each in ui_containers:
+			each.visible = false
+	else:
+		self.visible = true # remove when implementing fully
+		for each in ui_containers:
+			each.visible = true
+			
+func set_main(main: Node) -> void:
+	main_ref = main
+
+######################################
+### FUNCTIONS FOR DATA FORMATTING ####
+######################################
 
 # returns the list of points formatted such that
 # - start position is at 0, 0
@@ -213,59 +285,29 @@ func restore_list(list: Array) -> Array[Vector2]:
 	for each in list:
 		new_list.append(Vector2(each[0], each[1]))
 	return new_list
+	
+######################################
+###### FUNCTIONS FOR SAVE/LOAD #######
+######################################
 
 func _on_save_pressed() -> void:
 	file_popup.set_file_mode(FileDialog.FILE_MODE_SAVE_FILE) # select single file setting
+	file_type = FileType.SAVE_PATH
 	file_popup.clear_filters()
 	file_popup.add_filter("*.json") # only look for json files
 	file_popup.title = "Select a Location"
 	file_popup.popup_centered_ratio()
 
-# reverse list
-func _on_reverse_pressed() -> void:
-	points.reverse()
-	points.insert(0, points.back())
-	points.pop_back()
-	
-	icons.reverse()
-	icons.insert(0, icons.back())
-	icons.pop_back()
-
-# return to main scene
-func _on_back_pressed() -> void:
-	Global.points = export_path()
-	get_tree().change_scene_to_file("res://Scenes/main.tscn")
-	#main_ref.return_to_focus()
-
-# reset path
-func reset() -> void:
-	# reset list of points
-	points.clear()
-	
-	# delete all icon objects then delete list
-	for each in icons:
-		each.queue_free()
-	icons.clear()
-	
-	# reset ruler position
-	ruler[0].position = ruler_anchors[0]
-	ruler[1].position = ruler_anchors[1]
-
-	# reset scale
-	scale_value.get_line_edit().text = "1"
-	scale_units.selected = 0
-
-
 func _on_load_map_pressed() -> void:
 	file_popup.set_file_mode(FileDialog.FILE_MODE_OPEN_FILE) # select single file setting
+	file_type = FileType.LOAD_PATH
 	file_popup.clear_filters()
 	file_popup.add_filter("*.json") # only look for json files
 	file_popup.title = "Select a File"
 	file_popup.popup_centered_ratio()
-	
 
 func _on_file_dialog_file_selected(path: String) -> void:
-	if file_popup.get_file_mode() == FileDialog.FILE_MODE_OPEN_FILE:
+	if file_type == FileType.LOAD_PATH:
 		# reset current data
 		reset()
 		
@@ -296,7 +338,7 @@ func _on_file_dialog_file_selected(path: String) -> void:
 		# set calculation data
 		Global.points = restore_list(data.formatted)
 	
-	else:
+	elif file_type == FileType.SAVE_PATH:
 		var export_data = {}
 		# define config dict
 		export_data["scale"] = {
@@ -313,3 +355,25 @@ func _on_file_dialog_file_selected(path: String) -> void:
 		
 		# pass to save manager to write to file
 		SaveManager.save_path(path, export_data)
+		
+	elif file_type == FileType.LOAD_IMAGE:
+		var image = Image.load_from_file(path)
+		var texture = ImageTexture.create_from_image(image)
+		# reset image size
+		reference_scale.value = 0
+		reference.scale = Vector2(1,1)
+		reference.texture = texture
+
+func _on_load_image_pressed() -> void:
+	file_popup.set_file_mode(FileDialog.FILE_MODE_OPEN_FILE) # select single file setting
+	file_type = FileType.LOAD_IMAGE
+	file_popup.clear_filters()
+	file_popup.add_filter("*.png") # only look for usable image files
+	file_popup.add_filter("*.jpg")
+	file_popup.add_filter("*.jpeg")
+	file_popup.title = "Select a File"
+	file_popup.popup_centered_ratio()
+
+func _on_resize_slider_value_changed(value: float) -> void:
+	var s = 2**value
+	reference.scale = Vector2(s,s)

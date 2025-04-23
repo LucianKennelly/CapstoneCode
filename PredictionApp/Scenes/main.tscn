@@ -2,7 +2,7 @@
 
 [ext_resource type="Theme" uid="uid://cencj0im115lh" path="res://Themes/UP_Theme.tres" id="1_kry3j"]
 [ext_resource type="Script" uid="uid://buj6t2xc6v634" path="res://Scripts/main.gd" id="2_21xkr"]
-[ext_resource type="Texture2D" uid="uid://bmpov5wxmw81s" path="res://Assets/UP_Logo.png" id="3_6bp64"]
+[ext_resource type="Texture2D" uid="uid://tkst6s4rv6gr" path="res://Assets/UP_Logo.png" id="3_kry3j"]
 [ext_resource type="FontFile" uid="uid://bllh2efm5u2v0" path="res://Fonts/TheSans-7_Bold_TRIAL.otf" id="4_kry3j"]
 [ext_resource type="Texture2D" uid="uid://nj4w3to3s5ch" path="res://Assets/empty_map.png" id="5_ynf5e"]
 
@@ -28,11 +28,11 @@ color = Color(0.117647, 0.0862745, 0.337255, 1)
 
 [node name="UP Logo" type="TextureRect" parent="."]
 layout_mode = 0
-offset_left = -503.0
-offset_top = 350.0
-offset_right = -211.0
-offset_bottom = 454.0
-texture = ExtResource("3_6bp64")
+offset_left = -510.0
+offset_top = 358.0
+offset_right = -218.0
+offset_bottom = 462.0
+texture = ExtResource("3_kry3j")
 expand_mode = 2
 stretch_mode = 5
 
@@ -102,6 +102,7 @@ offset_bottom = 541.0
 grow_horizontal = 2
 theme_override_font_sizes/font_size = 40
 text = "Map:"
+text_overrun_behavior = 3
 
 [node name="Kart" type="Label" parent="Labels"]
 layout_mode = 1
@@ -115,6 +116,7 @@ offset_bottom = 541.0
 grow_horizontal = 2
 theme_override_font_sizes/font_size = 40
 text = "Profile: "
+text_overrun_behavior = 3
 
 [node name="Preview" type="Label" parent="Labels"]
 layout_mode = 1
@@ -146,15 +148,18 @@ theme_override_font_sizes/font_size = 25
 placeholder_text = "Battery Charge"
 
 [node name="OptionButton" type="OptionButton" parent="Battery/Capacity"]
+layout_mode = 0
 offset_left = 212.0
 offset_right = 290.0
 offset_bottom = 57.0
 selected = 0
-item_count = 2
-popup/item_0/text = "Ah"
+item_count = 3
+popup/item_0/text = "mAh"
 popup/item_0/id = 0
-popup/item_1/text = "C"
+popup/item_1/text = "Ah"
 popup/item_1/id = 1
+popup/item_2/text = "C"
+popup/item_2/id = 2
 
 [node name="Scaling Const" type="LineEdit" parent="Battery"]
 layout_mode = 0
@@ -166,6 +171,7 @@ theme_override_font_sizes/font_size = 25
 placeholder_text = "Scaling Constant"
 
 [node name="Verification" type="LineEdit" parent="Battery"]
+layout_mode = 0
 offset_left = 237.0
 offset_top = 486.0
 offset_right = 443.0
@@ -174,17 +180,21 @@ theme_override_font_sizes/font_size = 25
 placeholder_text = "Known Result"
 
 [node name="OptionButton" type="OptionButton" parent="Battery/Verification"]
+layout_mode = 0
 offset_left = 213.0
 offset_right = 291.0
 offset_bottom = 57.0
 selected = 0
-item_count = 2
-popup/item_0/text = "Ah"
+item_count = 3
+popup/item_0/text = "mAh"
 popup/item_0/id = 0
-popup/item_1/text = "C"
+popup/item_1/text = "Ah"
 popup/item_1/id = 1
+popup/item_2/text = "C"
+popup/item_2/id = 2
 
 [node name="Voltage" type="LineEdit" parent="Battery"]
+layout_mode = 0
 offset_left = -500.0
 offset_top = 101.0
 offset_right = -210.0
@@ -217,13 +227,13 @@ offset_bottom = 57.0
 selected = 0
 item_count = 4
 popup/item_0/text = "m/s"
-popup/item_0/id = 2
+popup/item_0/id = 0
 popup/item_1/text = "kph"
 popup/item_1/id = 1
 popup/item_2/text = "ft/s"
-popup/item_2/id = 3
+popup/item_2/id = 2
 popup/item_3/text = "mph"
-popup/item_3/id = 1
+popup/item_3/id = 3
 
 [node name="Acceleration" type="LineEdit" parent="Kart Settings"]
 layout_mode = 0
@@ -242,9 +252,9 @@ offset_bottom = 57.0
 selected = 0
 item_count = 2
 popup/item_0/text = "m/s^2"
-popup/item_0/id = 2
+popup/item_0/id = 0
 popup/item_1/text = "ft/s^2"
-popup/item_1/id = 3
+popup/item_1/id = 1
 
 [node name="Weight" type="LineEdit" parent="Kart Settings"]
 layout_mode = 0
@@ -263,9 +273,9 @@ offset_bottom = 57.0
 selected = 0
 item_count = 3
 popup/item_0/text = "kg"
-popup/item_0/id = 3
+popup/item_0/id = 0
 popup/item_1/text = "g"
-popup/item_1/id = 2
+popup/item_1/id = 1
 popup/item_2/text = "lbs"
 popup/item_2/id = 2
 
@@ -329,7 +339,7 @@ offset_right = 529.0
 offset_bottom = 467.0
 texture = ExtResource("5_ynf5e")
 expand_mode = 1
-stretch_mode = 1
+stretch_mode = 5
 
 [node name="Run Test" type="Button" parent="Meta"]
 layout_mode = 0
@@ -407,6 +417,7 @@ theme_override_font_sizes/normal_font_size = 25
 text = "(?)"
 
 [node name="RichTextLabel7" type="RichTextLabel" parent="Hints"]
+layout_mode = 0
 offset_left = 523.0
 offset_top = 498.0
 offset_right = 563.0
@@ -416,6 +427,7 @@ theme_override_font_sizes/normal_font_size = 25
 text = "(?)"
 
 [node name="RichTextLabel8" type="RichTextLabel" parent="Hints"]
+layout_mode = 0
 offset_left = -214.0
 offset_top = 111.0
 offset_right = -174.0
@@ -425,11 +437,31 @@ theme_override_font_sizes/normal_font_size = 25
 text = "(?)"
 
 [node name="FileDialog" type="FileDialog" parent="."]
-title = "Select a File"
+title = "Open a File"
 initial_position = 1
 ok_button_text = "Open"
 file_mode = 0
 access = 2
+
+[node name="Popup" type="Popup" parent="."]
+title = "Results"
+initial_position = 2
+size = Vector2i(300, 200)
+borderless = false
+max_size = Vector2i(300, 200)
+
+[node name="Label" type="Label" parent="Popup"]
+offset_right = 300.0
+offset_bottom = 200.0
+text = "Charge Consumed: 10 mAh
+Charge remaining: 90%
+Expected Lifetime: 15 min
+Expected Range: 23 laps
+Scaling Constant: 1.223
+Accuracy: 83%"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
 
 [connection signal="text_changed" from="Battery/Capacity" to="." method="_on_cc_text_changed"]
 [connection signal="text_changed" from="Battery/Scaling Const" to="." method="_on_scaling_const_text_changed"]

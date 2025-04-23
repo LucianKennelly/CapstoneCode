@@ -17,14 +17,19 @@ var load_path = "res://data/default.json"
 @onready var Acceleration_Unit = $"Kart Settings/Acceleration/OptionButton"
 @onready var Weight_Unit = $"Kart Settings/Weight/OptionButton"
 @onready var Capacity_Unit = $"Battery/Capacity/OptionButton"
+@onready var Known_Result = $Battery/Verification
+@onready var Known_Units = $Battery/Verification/OptionButton
 
 # map scene
 var map_scene: Map_Editor = preload("res://Scenes/map_edit.tscn").instantiate()
 var map_loaded = false
 var map_load = "res://data/data.json"
+@onready var preview = $Meta/MapPreview
 
-# save/load popup
+# popups
 @onready var file_popup = $FileDialog
+@onready var results_popup = $Popup
+@onready var results_label = $Popup/Label
 
 # UI elements
 @onready var profile_text = $Labels/Kart
@@ -33,9 +38,9 @@ var map_load = "res://data/data.json"
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	if !map_loaded:
-		map_scene.visible = false
 		get_tree().root.add_child(map_scene)
-	#	map_scene.main_ref = self
+		map_scene.set_main(self)
+		map_scene.set_preview(true)
 		map_loaded = true
 
 # given three points, gives the radius of the circle defined by them
@@ -63,23 +68,27 @@ func _on_run_pressed() -> void:
 	
 	var Q = Capacity.text.to_float()
 	match Capacity_Unit.get_selected_id():
-		0: # C is in ampere-hours, convert to coulombs
-			Q *= 3600
-		1: # coulombs, do nothing
+		0: # miliampere-hours
+			Q *= 3.6
+		1: # ampere-hours
+			Q *= 3600.0
+		2: # Coulombs
 			pass
 	var V = Voltage.text.to_float()
 	var scale = Scaling.text.to_float()
 	
 	var max_v = Max_Speed.text.to_float()
+	print(max_v)
 	match Max_Speed_Unit.get_selected_id():
 		0: # velocity is in m/s, no conversion
 			pass
 		1: # kph
-			max_v = (max_v*1000)/3600
+			max_v = (max_v*1000.0)/3600.0
 		2: # ft/s
 			max_v *= 0.3048
 		3: # mph
-			max_v = (max_v*(1/5280)*3600)*0.3048
+			max_v = (max_v*(1.0/5280.0)*3600.0)*0.3048
+	print(max_v)
 	var max_a = Acceleration.text.to_float()
 	match Acceleration_Unit.get_selected_id():
 		0: # velocity is in m/s^2, no conversion
@@ -89,12 +98,30 @@ func _on_run_pressed() -> void:
 	var friction_coeff = Friction.text.to_float()
 	var cart_weight = Weight.text.to_float()
 	match Weight_Unit.get_selected_id():
-		0: # velocity is in kg, no change
+		0: # kg, no change
 			pass
 		1: # grams
-			cart_weight /= 1000
+			cart_weight /= 1000.0
 		2: # lbs
 			cart_weight *= 0.45359237
+			
+	var known = Known_Result.text.to_float()
+	match Known_Units.get_selected_id():
+		0: # miliampere-hours
+			known *= 3.6
+		1: # ampere-hours
+			known *= 3600.0
+		2: # Coulombs
+			pass
+			
+	print(Q)
+	print(V)
+	print(scale)
+	print(max_v)
+	print(max_a)
+	print(friction_coeff)
+	print(cart_weight)
+	print(known)
 			
 	# get path data
 	var pointList = Global.points
@@ -167,7 +194,7 @@ func _on_run_pressed() -> void:
 	# calculate force on kart at each point
 	for i in range(len(ideal_vs)):
 		# assuming point spacing is sufficiently close so that acceleraton estimation can be over small time scale
-		forces.append(drag_coeff*ideal_vs[i]**2+(ideal_vs[i] < max_v)*cart_weight*max_a)
+		forces.append(drag_coeff*ideal_vs[i]**2+int(ideal_vs[i] < max_v)*cart_weight*max_a)
 
 	# calculate work done at each point since last point (left-sum)
 	var totalDist = [0]
@@ -194,7 +221,24 @@ func _on_run_pressed() -> void:
 		charge.append(dQ)
 		total += dQ
 		
-	print(str(total)+" Coulombs, "+str(total/3600)+" Ampere-Hours")
+	# calculate and format final results
+	if scale != 0:
+		total *= scale
+	var t = (times.reduce(func(accum, number): return accum + number, 0))
+	var results = "Charge Consumed: "+str(snapped(total/3.6, 0.01))+" mAh\nCharge remaining: "+str(100*snapped((Q-total)/Q, 0.0001))+"%\nExpected Lifetime: "+str(snapped((Q/total)*t/60, 0.01))+" min\nExpected Range: "+str(snapped(Q/total, 0.01))+" laps"
+	
+	# add optional results
+	if known != 0:
+		if scale != 0:
+			results = results+"\nAccuracy: "+str(100-100*snapped((abs(total-known)/abs(known)), 0.0001))+"%"
+		else:
+			# user looking for scaling constant
+			results = results+"\nAccuracy: "+str(100-100*snapped((abs(total-known)/abs(known)), 0.0001))+"%"
+			results = results+"\nScaling Constant: "+str(snapped((abs(known)/abs(total)), 0.01))
+			
+	# render results
+	results_label.text = results
+	results_popup.popup_centered_ratio()
 
 ######################################
 #### FUNCTIONS TO OPEN MAP EDITOR ####
@@ -208,14 +252,15 @@ func _on_new_map_pressed() -> void:
 # function caled when returning from map edit
 func return_to_focus() -> void:
 	self.visible = true
-	map_scene.visible = false
+	map_scene.set_preview(true)
+	preview.texture = map_scene.reference.texture
 
 func _on_edit_map_pressed() -> void:
 	launch_map()
 
 func launch_map():
 	self.visible = false
-	map_scene.visible = true
+	map_scene.set_preview(false)
 
 ######################################
 ##### FUNCTIONS FOR FILE ACCESS ######
@@ -269,7 +314,7 @@ func _on_file_dialog_file_selected(path: String) -> void:
 		load_data["weight"] = {"value": Weight.text.to_float(), "unit": Weight_Unit.get_selected_id()}
 		load_data["friction"] = {"value": Friction.text.to_float()}
 		load_data["max_speed"] = {"value": Max_Speed.text.to_float(), "unit": Max_Speed_Unit.get_selected_id()}
-		load_data["scaling"] = {"value": Acceleration.text.to_float()}
+		load_data["scaling"] = {"value": Scaling.text.to_float()}
 		load_data["voltage"] = {"value": Voltage.text.to_float()}
 		
 		# save file
