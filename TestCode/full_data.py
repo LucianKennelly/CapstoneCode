@@ -1,248 +1,99 @@
-import math
-import matplotlib.pyplot as plt
-import csv
-from scipy import stats
+from single_test import *
 
 # profile data
-max_v = 22 # velocity (m/s)
-max_a = max_v/1.5 # acceleration (m/s^2)
+max_v = 24 # velocity (m/s)
+max_a = 14.6 # acceleration (m/s^2)
 friction_coeff = 0.7 # friction between tires and ground (guess from google)
-cart_weight = 3 # (kg)
-drag_coeff = 0#1/80 # coefficient of drag moving forwards, basically jsut a scaling constant
+cart_weight = 3.4 # (kg)
+drag_coeff = 1/8# coefficient of drag moving forwards, basically just a scaling constant
 battery_voltage = 12.6
+brake_speed = 10 # inverse of acceleration, safe speed to brake at (m/s^2)
 
-# path data
+# sim config
+max_segment_space = 100 # maximum distance in meters between two points on the pointList (will interpolate if not fulfilled). 8 seems to be a good value
+
+profile = (max_v, max_a, cart_weight, drag_coeff, battery_voltage, brake_speed)
+
+# paths
+# long curving path
+longpath = [[0.0,0.0],[-0.709715604782104,-1.58975601196289],[-1.81686544418335,-3.39242792129517],[-4.17311382293701,-6.38742303848267],[-6.72808504104614,-8.55914497375488],[-9.65210819244385,-9.75146102905273],[-12.0083589553833,-10.3760137557983],[-14.2368583679199,-10.3050403594971],[-16.6782722473145,-10.1347131729126],[-19.4319629669189,-9.28305435180664],[-21.135274887085,-8.17589950561523],[-22.2992057800293,-6.30225515365601],[-22.4127597808838,-4.03117179870605],[-21.8733768463135,-1.9588086605072],[-20.7662258148193,-0.880043089389801],[-19.4319629669189,-1.05037450790405],[-19.0629119873047,-2.01558518409729],[-19.0629119873047,-3.20790433883667],[-18.9209671020508,-5.16671466827393],[-18.3248081207275,-6.69969511032104],[-16.8202152252197,-7.6365180015564],[-14.4071884155273,-7.77846050262451],[-11.852219581604,-7.6365180015564],[-9.4675817489624,-6.50097513198853],[-7.45199346542358,-5.13832569122314],[-5.52157211303711,-3.49178910255432],[-4.41441917419434,-2.1291401386261],[-3.1937108039856,-0.1987184882164],[-1.83106172084808,0.851658761501312],[-1.09295642375946,1.05037724971771],[-0.411630481481552,0.794879376888275]]
+
 # parking lot path
-pointList = [[0.0,0.0],[11.8640031814575,0.123588383197784],[24.0987548828125,-0.123576648533344],[39.2995147705078,-1.48300182819366],[55.9832649230957,-1.35941350460052],[70.1953506469727,-1.11224842071533],[80.0820236206055,0.865083456039429],[87.3734359741211,7.04425573348999],[90.5866012573242,12.9762516021729],[90.8337631225586,19.5261726379395],[88.2385177612305,22.7393398284912],[83.6659393310547,23.3572521209717],[77.1160202026367,24.4695072174072],[72.0491027832031,26.3232555389404],[67.4765167236328,29.1656723022461],[62.780345916748,33.2439231872559],[59.8143501281738,37.1985931396484],[58.0841827392578,42.1419219970703],[58.207763671875,45.2315101623535],[59.4435997009277,47.9503440856934],[62.2860145568848,50.7927665710449],[66.3642654418945,51.9050140380859],[73.0377655029297,52.6465110778809],[77.3631896972656,56.2304382324219],[81.5650177001953,60.0615158081055],[86.8791046142578,66.611442565918],[90.0922698974609,72.7906036376953],[89.3507690429688,76.7452697753906],[87.0026931762695,78.9697723388672],[81.4414367675781,79.4641036987305],[72.4198532104492,79.8348541259766],[62.0388488769531,80.2056045532227],[50.6691741943359,79.7112731933594],[36.5806770324707,79.7112731933594],[26.9411678314209,80.0820159912109],[14.8300065994263,80.0820159912109],[6.67350292205811,80.0820159912109],[1.73016691207886,79.7112731933594],[-3.70749878883362,78.7226104736328],[-7.66216897964478,76.6216888427734],[-10.7517490386963,73.7792663574219],[-12.2347507476807,69.4538497924805],[-12.9762516021729,62.0388565063477],[-12.3583335876465,54.9946022033691],[-11.1225023269653,46.5909309387207],[-10.7517490386963,39.9174270629883],[-10.7517490386963,34.9740905761719],[-10.9989137649536,28.6713428497314],[-10.504584312439,21.997838973999],[-9.14516448974609,15.4479188919067],[-8.77441692352295,8.4036693572998],[-7.41499757766724,3.95466375350952],[-4.69616460800171,1.60659027099609]]
+parkinglotpath = [[0.0,0.0],[3.6161482334137,0.0376697368919849],[7.34530019760132,-0.0376661606132984],[11.9784917831421,-0.452018946409225],[17.0636978149414,-0.414349228143692],[21.395544052124,-0.339013338088989],[24.4090003967285,0.263677448034286],[26.6314220428467,2.1470890045166],[27.6107959747314,3.95516133308411],[27.6861305236816,5.95157718658447],[26.8950996398926,6.93095064163208],[25.5013771057129,7.11929035186768],[23.5049629211426,7.45830535888672],[21.9605655670166,8.02332782745361],[20.5668411254883,8.88969707489014],[19.1354484558105,10.1327476501465],[18.2314147949219,11.3381309509277],[17.7040596008301,12.8448581695557],[17.7417259216309,13.786563873291],[18.118408203125,14.6152639389038],[18.9847774505615,15.481635093689],[20.2278270721436,15.8206472396851],[22.2619113922119,16.0466556549072],[23.5802993774414,17.1390380859375],[24.8610172271729,18.3067493438721],[26.4807510375977,20.303165435791],[27.4601230621338,22.1865768432617],[27.2341136932373,23.3919582366943],[26.5184211730957,24.0699863433838],[24.8233509063721,24.2206573486328],[22.0735702514648,24.3336639404297],[18.9094409942627,24.4466686248779],[15.4439640045166,24.2959957122803],[11.1497898101807,24.2959957122803],[8.21166801452637,24.4089984893799],[4.52018594741821,24.4089984893799],[2.03408360481262,24.4089984893799],[0.527354896068573,24.2959957122803],[-1.13004553318024,23.994649887085],[-2.33542895317078,23.3542900085449],[-3.27713298797607,22.4879207611084],[-3.7291522026062,21.1695346832275],[-3.95516133308411,18.9094429016113],[-3.76681995391846,16.7623538970947],[-3.39013862609863,14.2009153366089],[-3.27713298797607,12.1668319702148],[-3.27713298797607,10.6601028442383],[-3.35246872901917,8.7390251159668],[-3.20179724693298,6.7049412727356],[-2.78744602203369,4.70852565765381],[-2.67444229125977,2.56143832206726],[-2.26009106636047,1.20538151264191],[-1.43139100074768,0.489688724279404]]
 
-# simple down and back
-#[[0,0],[61,0],[63,1],[64,3],[63,5],[61,6],[0,6],[-2,5],[-3,3],[-2,1]]
+# road test
+roadtestpath = [[0,0],[61,0],[63,1],[64,3],[63,5],[61,6],[0,6],[-2,5],[-3,3],[-2,1]]
 
-# variables
-laps = 1 # to be implemented
-max_segment_space = 1 # maximum distance in meters between two points on the pointList (will interpolate if not fulfilled)
+# red
+redpath = [[0.0,0.0],[1.52212285995483,1.65333950519562],[3.2017080783844,3.22795152664185],[5.19621324539185,5.43240594863892],[6.71833610534668,6.84955406188965],[7.97802591323853,8.26670360565186],[8.97527980804443,9.63136672973633],[10.339937210083,10.7335939407349],[12.7543439865112,11.5471420288086],[15.6673736572266,11.7570905685425],[17.2419834136963,11.3896808624268],[18.7116184234619,10.4974012374878],[19.8138465881348,8.71284294128418],[21.1260204315186,6.61336326599121],[21.5984039306641,4.46139526367188],[21.7033767700195,2.20445442199707],[21.7033767700195,-0.314922392368317],[21.7033767700195,-2.25694489479065],[21.4409408569336,-4.14647626876831],[20.4961757659912,-6.14098167419434],[19.2889747619629,-8.13548946380615],[17.8718280792236,-9.86756134033203],[16.7171115875244,-11.1272487640381],[15.4049386978149,-12.5968856811523],[14.1977376937866,-13.8040857315063],[12.7805862426758,-14.2239837646484],[11.4159231185913,-14.0140342712402],[10.1037492752075,-13.0692672729492],[8.37167739868164,-10.9697885513306],[6.42965841293335,-9.39517688751221],[4.38266372680664,-7.40067148208618],[2.70307874679565,-5.98352193832397],[1.49587833881378,-4.93378114700317],[0.393651127815247,-3.04424953460693],[-0.0787312239408493,-1.25969088077545]]
 
-# setup
-radii = []
-max_vs = []
-ideal_vs = []
-forces = []
-work = []
-power = []
-times = []
-g = 9.8
+# blue
+bluepath = [[0.0,0.0],[-1.21418833732605,3.98947763442993],[-1.61891770362854,7.68986034393311],[-0.925095081329346,10.8120594024658],[0.462547540664673,13.1826171875],[2.65965151786804,14.3968057632446],[5.66621208190918,15.2062635421753],[9.94477844238281,15.4953565597534],[13.6451644897461,15.2062635421753],[16.0157260894775,14.80153465271],[18.9644680023193,13.9920749664307],[19.6582908630371,13.1247987747192],[19.5426502227783,11.9106111526489],[18.7910118103027,10.69642162323],[17.5768222808838,9.13532257080078],[16.1891765594482,6.88040161132812],[14.1655302047729,4.04729557037354],[12.9513416290283,1.61891770362854],[11.1011514663696,-0.289093226194382],[9.59787082672119,-1.21418833732605],[7.68985939025879,-2.13928627967834],[5.14584636688232,-2.65965151786804],[3.1800172328949,-2.65965151786804],[1.27200639247894,-1.85019278526306]]
 
+# orange
+orangepath = [[0.0,0.0],[2.5552875995636,0.537955522537231],[6.58995199203491,0.717272639274597],[9.9073429107666,0.179319217801094],[13.6730279922485,-1.70352292060852],[15.3765525817871,-3.7656843662262],[18.6042766571045,-5.46920919418335],[22.1009902954102,-7.26239109039307],[26.7632598876953,-7.44170999526978],[29.632360458374,-6.99341535568237],[30.5289440155029,-4.75193452835083],[29.9013290405273,-2.0621612071991],[27.5701904296875,-0.358636319637299],[24.5217838287354,0.537955522537231],[21.1147346496582,0.717272639274597],[18.8732566833496,0.0],[17.6180286407471,-2.86909246444702],[17.4387111663818,-6.2761402130127],[17.9766616821289,-9.01074314117432],[18.918083190918,-12.2833032608032],[19.5456981658936,-17.5731925964355],[19.276725769043,-20.9802417755127],[18.4697875976562,-23.9389934539795],[16.5869445800781,-25.3735389709473],[14.4799680709839,-24.9700736999512],[13.1350774765015,-23.8941631317139],[11.3418970108032,-21.5630283355713],[9.63837242126465,-18.9629077911377],[7.6658673286438,-16.1834754943848],[5.42439079284668,-13.852334022522],[2.42081046104431,-10.2659711837769],[-0.806922674179077,-6.00716066360474],[-1.65868079662323,-2.60010933876038]]
 
-# format path to not have points too far away and to account for laps by repeating path
-i = 0
-while True:
-    x1 = pointList[i-1]
-    x2 = pointList[i]
-    dx = math.sqrt((x1[0]-x2[0])**2+(x1[1]-x2[1])**2)
-    if dx > max_segment_space:
-        dvs = math.ceil(dx/max_segment_space)-1
-        for j in range(dvs):
-            x3 = [x1[0]+((x2[0]-x1[0])/dvs)*(j+1),x1[1]+((x2[1]-x1[1])/dvs)*(j+1)]
-            pointList.insert(i+j, x3)
-        i += dvs
+# yellow
+yellowpath = [[0.0,0.0],[4.16455030441284,0.198312938213348],[9.32065391540527,0.694091737270355],[11.9978704452515,1.98311996459961],[11.8987102508545,4.66033124923706],[10.8079967498779,6.34598350524902],[7.04006767272949,7.63500928878784],[1.48733401298523,7.93247747421265],[-2.87552690505981,8.8248815536499],[-7.33754777908325,9.2215051651001],[-11.5020980834961,9.2215051651001],[-16.6582069396973,8.22994518280029],[-19.4345722198486,6.74260711669922],[-19.533727645874,3.86708235740662],[-18.3438606262207,1.28902816772461],[-15.2700233459473,0.495781153440475],[-11.7004089355469,0.396623522043228],[-7.83332872390747,0.0],[-4.46202087402344,0.0]]
 
-    i += 1
-    if i == len(pointList):
-        break
-
-removed = 0
-i = 0
-while True:
-    x1 = pointList[i-1]
-    x2 = pointList[i]
-    dx = abs(math.sqrt((x1[0]-x2[0])**2+(x1[1]-x2[1])**2))
-    if dx < 0.0001:
-        #print(pointList[i],pointList[i-1])
-        pointList.remove(pointList[i])
-        i -= 1
-        removed += 1
-    i += 1
-    if i == len(pointList):
-        break
-
-# def function for use later
-def get_radius(x1, y1, x2, y2, x3, y3):
-    s1 = x1**2 + y1**2
-    s2 = x2**2 + y2**2
-    s3 = x3**2 + y3**2
-    
-    m11 = x1*(y2 - y3) + x2*(y3 - y1) + x3*(y1 - y2)
-
-    if m11 == 0:
-      return float('inf')
-
-    m12 = s1*(y2 - y3) + s2*(y3 - y1) + s3*(y1 - y2)
-    m13 = s1*(x2 - x3) + s2*(x3 - x1) + s3*(x1 - x2)
-
-    x0 = 0.5 * m12 / m11
-    y0 = -0.5 * m13 / m11
-    
-    radius = math.sqrt((x1 - x0)**2 + (y1 - y0)**2)
-    return radius
-
-# calculate turn radius at each point
-for i in range(len(pointList)):
-    x1 = []
-    x2 = pointList[i]
-    x3 = []
-    if i == 0:
-        x1 = pointList[-1]
-        x3 = pointList[i+1]
-    if i > 0 and i < len(pointList)-1:
-        x1 = pointList[i-1]
-        x3 = pointList[i+1]
-    else:
-        x1 = pointList[i-1]
-        x3 = pointList[0]
-
-    radii.append(get_radius(x1[0],x1[1],x2[0],x2[1],x3[0],x3[1]))
+# last two values are number of laps and friction coefficient (decreased for river campus area)
+datasets = [
+    #[longpath, "data_logs/long_curve.csv", 10], # the data here contains an unknown number of loops and includes low battery runs
+    [[[each[0]*5/3, each[1]*5/3] for each in parkinglotpath], "data_logs/parkinglotpath.csv", 1, 0.7],
+    #[roadtestpath, "data_logs/road_test.csv", 1], # the data here was a very rough first test
+    [[[each[0]*5/3, each[1]*5/3] for each in redpath], "data_logs/red1.csv", 1, 0.7],
+    [[[each[0]*5/3, each[1]*5/3] for each in redpath], "data_logs/red2.csv", 1, 0.7],
+    [[[each[0]*5/3, each[1]*5/3] for each in redpath], "data_logs/red3.csv", 1, 0.7],
+    [[[each[0]*5/3, each[1]*5/3] for each in bluepath], "data_logs/blue1.csv", 1, 0.7],
+    [[[each[0]*5/3, each[1]*5/3] for each in bluepath], "data_logs/blue2.csv", 1, 0.7],
+    [[[each[0]*5/3, each[1]*5/3] for each in bluepath], "data_logs/blue3.csv", 1, 0.7],
+    #[orangepath, "data_logs/orange.csv", 1], # something seems to have gone wrong documenting this one
+    [yellowpath, "data_logs/yellow1.csv", 1, 0.7],
+    [yellowpath, "data_logs/yellow2.csv", 1, 0.7],
+    [yellowpath, "data_logs/yellow_double.csv", 2, 0.7],
+    [yellowpath, "data_logs/yellow_triple.csv", 3, 0.7]
+]
 
 
-# calculate max speeds by friction
-for each in radii:
-    max_vs.append(math.sqrt(friction_coeff*g*each))
+scale = 1
+def run_full():
+    predictions = []
+    results = []
+    scales = []
+    accuracy = []
+    for each in datasets:
+        print(f"------------{each[1]}-----------")
+        predicted, actual = runTest(each[0].copy(), each[1], profile, each[2], each[3], max_segment_space, False, False)
+        #each[0].reverse()
+        #predicted2, _ = runTest(each[0].copy(), each[1], profile, each[2], friction_coeff, max_segment_space, False, False)
+        predictions.append(scale*(predicted))
+        results.append(actual)
+        scales.append(actual/(scale*(predicted)))
+        accuracy.append(abs(actual-predicted)/abs(actual))
 
-# calculate max speeds with kart characteristics
-ideal_vs = max_vs
-for i in range(len(ideal_vs)):
-    if i == 0:
-        v1 = ideal_vs[i] = 0 # starting point always velocity of 0
-        continue
+    print(sum(scales)/len(scales))
+    print(sum(accuracy)/len(accuracy))
+    #print(predictions)
+    #print(results)
 
-    # get adjacent points
-    v1 = ideal_vs[i-1]
-    x1 = pointList[i-1]
-    v2 = ideal_vs[i]
-    x2 = pointList[i]
-    
-    # check against max speed
-    if v2 > max_v:
-        ideal_vs[i] = max_v
+    slope, intercept, r, p, std_err = stats.linregress(predictions, results)
 
-    # check against max acceleration
-    dx = math.sqrt((x1[0]-x2[0])**2+(x1[1]-x2[1])**2)
-    if (v1*(v2-v1)/dx+((v2-v1)**2)/dx) > max_a:
-        t = (-v1+math.sqrt(v1**2+4*max_a*dx))/(2*max_a)
-        ideal_vs[i] = v1+max_a*t
-        times.append(t)
-    else:
-        a = (v1*(v2-v1)/dx+((v2-v1)**2)/dx)
-        t = 0
-        if a > 0:
-            t = (-v1+math.sqrt(v1**2+4*a*dx))/(2*a)
-        else:
-            t = dx/v1
-        times.append(t)
+    def myfunc(x):
+        return slope * x + intercept
 
+    mymodel = list(map(myfunc, predictions))
 
-# calculate force on kart at each point
-for i in range(len(ideal_vs)):
-    # assuming point spacing is sufficiently close so that acceleraton estimation can be over small time scale
-    forces.append(drag_coeff*ideal_vs[i]**2+(ideal_vs[i] < max_v)*cart_weight*max_a)
+    print(f"Slope: {round(slope,2)}, Intercept: {round(intercept,2)}, R: {round(r,4)}, P: {round(p,5)}, Standard Error: {round(std_err,4)}")
 
-# calculate work done at each point since last point (left-sum)
-totalDist = [0]
-totalWork = [0]
-for i in range(len(forces)):
-    w = 0
-    if i != 0:
-        x1 = pointList[i-1]
-        x2 = pointList[i]
-        dx = math.sqrt((x1[0]-x2[0])**2+(x1[1]-x2[1])**2)
-        totalDist.append(totalDist[i-1]+dx)
-        w = forces[i]*dx
-        totalWork.append(totalWork[i-1]+w)
+    _, ax = plt.subplots()
+    ax.scatter(predictions, results)
+    ax.plot(predictions, mymodel, color="orange", label=f"y={round(slope,2)}x+{round(intercept,2)}, R^2={round(r**2,4)}")
+    ax.legend()
+    plt.xlabel("Predicted Energy (J)")
+    plt.ylabel("Experimental Energy (J)")
+    plt.title("Multiple Test Accuracy Analysis")
+    plt.show()
 
-    work.append(w)
-
-total = 0
-for i in range(len(work)):
-    dQ = work[i]/battery_voltage
-    total += dQ
-
-print(f"Energy Used: {total}")
-print(f"Estimated Time: {sum(times)}")
-
-### READ CSV DATA
-f = open("parkinglotpath.csv","r")
-
-fields = []
-rows = []
-
-# creating a csv reader object
-csvreader = csv.reader(f)
-
-# extracting field names through first row
-fields = next(csvreader)
-
-# extracting each data row one by one
-for row in csvreader:
-    rows.append(row)
-
-dt = 0.2 # each row is 0.2 secs apart
-work = [0]
-times = []
-for i in range(len(rows)):
-    if i > 0:
-        work.append(work[i-1]+float(rows[i][1])*dt)
-    times.append(i/len(rows))
-
-
-# get estimate of time taken in ideal case
-timeEst = [0]
-for i in range(len(pointList)):
-    if i > 0:
-        x1 = pointList[i-1]
-        x2 = pointList[i]
-        dx = math.sqrt((x1[0]-x2[0])**2+(x1[1]-x2[1])**2)
-        timeEst.append(timeEst[-1]+dx/ideal_vs[i])
-
-
-for i in range(len(timeEst)):
-    timeEst[i] = timeEst[i]/timeEst[-1]
-
-print(f"Accuracy: {100-100*abs(totalWork[-1]-work[-1])/work[-1]}%")
-
-_, ax = plt.subplots()
-ax.plot(timeEst, totalWork, color="orange", label="Predicted")
-ax.plot(times, work, color="blue", label="Experimental")
-ax.legend()
-plt.xlabel("Percentage Time")
-plt.ylabel("Work Done (J)")
-plt.title("Prediction/Test Comparison")
-plt.show()
-
-work_extrapolated = []
-for each in times:
-    closest = abs(each-timeEst[0])
-    closesti = 0
-    for i in range(len(timeEst)):
-        if abs(each-timeEst[i]) < closest:
-            closest = abs(each-timeEst[i])
-            closesti = i
-
-    work_extrapolated.append(totalWork[closesti])
-
-# error analysis
-slope, intercept, r, p, std_err = stats.linregress(work_extrapolated, work)
-
-def myfunc(x):
-  return slope * x + intercept
-
-mymodel = list(map(myfunc, work_extrapolated))
-
-print(f"Slope: {round(slope,2)}, Intercept: {round(intercept,2)}, R: {round(r,4)}, P: {round(p,5)}, Standard Error: {round(std_err,4)}")
-
-_, ax = plt.subplots()
-ax.scatter(work_extrapolated, work)
-ax.plot(work_extrapolated, mymodel, color="orange", label=f"y={round(slope,2)}x+{round(intercept,2)}, R^2={round(r**2,4)}")
-ax.legend()
-plt.xlabel("Predicted Energy")
-plt.ylabel("Experimental Energy")
-plt.title("Single Test Accuracy Analysis")
-plt.show()
+#run_full()
+runTest([[each[0]*5/3, each[1]*5/3] for each in bluepath], "data_logs/blue2.csv", profile, 1, friction_coeff, max_segment_space, True, True)
+#runTest(yellowpath, "data_logs/yellow_triple.csv", profile, 3, friction_coeff, max_segment_space, True, False)
